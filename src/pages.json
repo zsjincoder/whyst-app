@@ -1,0 +1,60 @@
+{
+	"easycom": {
+		"autoscan": true,
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/shopping_mall/shoppingMall",
+			"style": {
+				"navigationBarTitleText": "商城"
+			}
+		},
+		{
+			"path": "pages/personal_center/personalCenter",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#1296db",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"fontSize": "22px",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/images/home.png",
+				"selectedIconPath": "static/images/home-ac.png",
+				"text": "会员中心"
+			},
+			{
+				"pagePath": "pages/shopping_mall/shoppingMall",
+				"iconPath": "static/images/mall.png",
+				"selectedIconPath": "static/images/mall-ac.png",
+				"text": "进入商城"
+			},
+			{
+				"pagePath": "pages/personal_center/personalCenter",
+				"iconPath": "static/images/pc.png",
+				"selectedIconPath": "static/images/pc-ac.png",
+				"text": "个人中心"
+			}
+		]
+	},
+
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}
