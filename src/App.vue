@@ -18,6 +18,6 @@ export default {
 
 body {
     font-family: "微软雅黑";
-    background: #f5f5f5;
+    background: #eee;
 }
 </style>
