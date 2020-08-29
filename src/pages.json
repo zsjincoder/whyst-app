@@ -1,15 +1,19 @@
 {
+	"easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue",
+		"tui-(.*)": "@/components/thorui/tui-$1/tui-$1.vue"
+	},
 	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "首页"
+				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/shopping_mall/shoppingMall",
+			"path": "pages/about_platform/AboutPlatform",
 			"style": {
-				"navigationBarTitleText": "商城"
+				"navigationBarTitleText": "关于平台"
 			}
 		},
 		{
@@ -17,7 +21,87 @@
 			"style": {
 				"navigationBarTitleText": "个人中心"
 			}
+		},
+		{
+			"path": "pages/incomeBreakdown/incomeBreakdown",
+			"style": {
+				"navigationBarTitleText": "支收记录",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/recharge/recharge",
+			"style": {
+				"navigationBarTitleText": "充值"
+			}
+		},
+		{
+			"path": "pages/withdraw/withdraw",
+			"style": {
+				"navigationBarTitleText": "提现"
+			}
+		},
+		{
+			"path": "pages/team/team",
+			"style": {
+				"navigationBarTitleText": "我的团队"
+			}
+		},
+		{
+			"path": "pages/wallet/wallet",
+			"style": {
+				"navigationBarTitleText": "我的收益"
+			}
+		},
+		{
+			"path": "pages/Mall/Mall",
+			"style": {
+				"navigationBarTitleText": "商城"
+			}
+		},
+		{
+			"path": "pages/productDetail/ProductDetail",
+			"style": {
+				"navigationBarTitleText": "商品详情"
+			}
+		},
+		{
+			"path": "pages/submitOrder/submitOrder",
+			"style": {
+				"navigationBarTitleText": "订单"
+			}
+		},
+		{
+			"path": "pages/address/address",
+			"style": {
+				"navigationBarTitleText": "地址"
+			}
+		},
+		{
+			"path": "pages/editAddress/editAddress",
+			"style": {
+				"navigationBarTitleText": "新增地址"
+			}
+		},
+		{
+			"path": "pages/success/success",
+			"style": {
+				"navigationBarTitleText": "支付成功"
+			}
+		},
+		{
+			"path": "pages/myOrder/myOrder",
+			"style": {
+				"navigationBarTitleText": "我的订单"
+			}
+		},
+		{
+			"path": "pages/orderDetail/orderDetail",
+			"style": {
+				"navigationBarTitleText": "订单详情"
+			}
 		}
+
 	],
 	"tabBar": {
 		"color": "#7A7E83",
@@ -33,16 +117,16 @@
 				"text": "会员中心"
 			},
 			{
-				"pagePath": "pages/shopping_mall/shoppingMall",
+				"pagePath": "pages/Mall/Mall",
 				"iconPath": "static/images/mall.png",
 				"selectedIconPath": "static/images/mall-ac.png",
 				"text": "进入商城"
 			},
 			{
-				"pagePath": "pages/personal_center/personalCenter",
+				"pagePath": "pages/about_platform/AboutPlatform",
 				"iconPath": "static/images/pc.png",
 				"selectedIconPath": "static/images/pc-ac.png",
-				"text": "个人中心"
+				"text": "关于平台"
 			}
 		]
 	},
@@ -50,7 +134,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#ffffff",
 		"backgroundColor": "#F8F8F8"
 	}
 }

@@ -1,0 +1,118 @@
+<template>
+	<view>
+		<tui-list-view unlined="all">
+			<tui-list-cell :lineLeft="false" :padding="'39rpx 30rpx 39rpx 30rpx'" :unlined="true" :hover="false" :arrow="true">
+				<view class="tui-item-box">
+					<view class="tui-msg-name">提现方式</view>
+					<view class="tui-msg-name tui-msg-name3">微信</view>
+				</view>
+			</tui-list-cell>
+		</tui-list-view>
+		<!-- 提现框 -->
+		<view class="w_cash_box">
+			<view class="w_c_b_hint">充值金额</view>
+			<view class="w_c_flex" style="justify-content: space-between;">
+				<view class="w_c_flex">
+					<view class="w_c_flag">￥</view>
+					<input class="w_c_flag w_c_input" type="digit" v-model="money"  />
+				</view>
+				<tui-icon @click="deleteAll" v-if="money !== 0&&money !== ''" :name="'close-fill'" :size="32" :unit="'rpx'" :color="'#A9A9A9'"></tui-icon>
+			</view>
+			<view class="mini_divider" style="margin-top: 41rpx;"></view>
+			<view class="w_all">本次最多可充值￥10000</view>
+		</view>
+		<!-- 提交按钮 -->
+		<view class="r_send">
+			<view class="r_s_button" :style="{background:money == 0?'#81d5dd':'#33c0cd'}">充值</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				money:0,
+			}
+		},
+		methods: {
+			deleteAll(){
+				this.money = 0; 
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	page{
+		background: #F6F6F6;
+	}
+	.tui-item-box {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.tui-msg-name {
+		font-size: 28rpx;
+		color: rgba(102, 102, 102, 1);
+	}
+
+	.tui-msg-name3 {
+		font-weight:bold;
+		color:rgba(48,48,48,1);
+		margin-right: 30rpx;
+	}
+	.w_cash_box{
+		margin-top: 2rpx;
+		width: 100%;
+		background: #FFFFFF;
+		padding: 30rpx;
+		box-sizing: border-box;
+		.w_c_flex{
+			display: flex;
+			align-items: center;
+		}
+		.w_c_flag{
+			font-size:48rpx;
+			font-weight:bold;
+			color:rgba(48,48,48,1);
+			margin-right: 25rpx;
+		}
+		.w_c_input{
+			width: 500rpx;
+			height: 88rpx;
+		}
+		.w_c_b_hint{
+			font-size:28rpx;
+			color:rgba(102,102,102,1);
+			margin-bottom: 57rpx;
+		}
+		.w_all{
+			margin-top: 38rpx;
+			font-size:20rpx;
+			font-weight:bold;
+			color:rgba(153,153,153,1);
+			text{
+				color: #3483CC;
+			}
+		}
+	}
+	.r_send {
+		padding: 0 35rpx;
+		box-sizing: border-box;
+		margin-top: 73rpx;
+	
+		.r_s_button {
+			height: 82rpx;
+			// background: rgba(51, 205, 161, 1);
+			border-radius: 10rpx;
+			line-height: 82rpx;
+			text-align: center;
+			font-size: 32rpx;
+			font-weight: bold;
+			color: rgba(255, 255, 255, 1);
+		}
+	}
+</style>
