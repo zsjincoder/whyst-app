@@ -2,7 +2,9 @@
     <view class="search-bar">
         <view class="search-bar-form">
             <view class="search-bar-box">
-                <icon class="icon-search-in-box" type="search" :size="16"></icon>
+                <icon class="icon-search-in-box"
+                      type="search"
+                      :size="16"></icon>
                 <input confirm-type="search"
                        class="search-bar-input"
                        :placeholder="placeholder"
@@ -17,7 +19,7 @@
                           size="14"></icon>
                 </view>
             </view>
-            <view v-show="!inputShowed"
+            <view v-if="!inputShowed"
                   class="search-bar-label"
                   @tap="showInput">
                 <icon class="icon-search"
@@ -82,8 +84,8 @@ export default {
 <style scoped
        lang="less">
 .search-bar {
-    width: 100%;
-    height: 100%;
+    width: 750rpx;
+    height: 50rpx;
     position: relative;
     padding: 8px 10px;
     display: -webkit-flex;
@@ -131,6 +133,8 @@ export default {
 }
 
 .search-bar-input {
+    width: 100%;
+    height: 100%;
     font-size: 14px;
     flex: 1;
 }

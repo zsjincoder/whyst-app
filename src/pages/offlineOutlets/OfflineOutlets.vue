@@ -28,9 +28,10 @@
 </template>
 
 <script>
-
+import TInput from "@/components/t-input/TInput";
 export default {
     name: "OfflineOutlets",
+    components: {TInput},
     data() {
         return {
             //搜索值
