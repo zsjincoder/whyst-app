@@ -100,15 +100,21 @@
 			"style": {
 				"navigationBarTitleText": "订单详情"
 			}
+		},
+		{
+			"path": "pages/offlineOutlets/OfflineOutlets",
+			"style": {
+				"navigationBarTitleText": "服务网点"
+			}
 		}
 
 	],
 	"tabBar": {
 		"color": "#7A7E83",
-		"selectedColor": "#1296db",
+		"selectedColor": "#14356F",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
-		"fontSize": "22px",
+		"fontSize": "32px",
 		"list": [
 			{
 				"pagePath": "pages/index/index",

@@ -61,7 +61,7 @@
 	.w_balance {
 		width: 100%;
 		min-height: 226rpx;
-		background: linear-gradient(146deg, rgb(39, 160, 231), rgb(118, 226, 253));
+		background: linear-gradient(146deg, rgb(39, 87, 231), rgb(118, 199, 253));
 		padding: 58rpx 30rpx 59rpx 30rpx;
 		box-sizing: border-box;
 		display: flex;
@@ -69,7 +69,7 @@
 		justify-content: space-between;
 
 		.w_b_title {
-			font-size: 24rpx;
+			font-size:32rpx;
 			color: rgba(255, 255, 255, 1);
 			opacity: 0.6;
 		}

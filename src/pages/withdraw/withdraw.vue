@@ -23,7 +23,7 @@
 		</view>
 		<!-- 提交按钮 -->
 		<view class="r_send">
-      <view class="r_s_button" :style="{background:money == 0?'#81d5dd':'#33c0cd'}">提现</view>
+      <view class="r_s_button" :style="{background:money == 0?'#8198dd':'#334dcd'}">提现</view>
 		</view>
 	</view>
 </template>
@@ -55,7 +55,7 @@
 	}
 
 	.tui-msg-name {
-		font-size: 28rpx;
+		font-size: 30rpx;
 		color: rgba(102, 102, 102, 1);
 	}
 
@@ -87,7 +87,7 @@
 		}
 		.w_all{
 			margin-top: 38rpx;
-			font-size:20rpx;
+			font-size:24rpx;
 			font-weight:bold;
 			color:rgba(153,153,153,1);
 			text{

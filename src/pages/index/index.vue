@@ -3,7 +3,6 @@
         <view class="tui-header-box" :style="{height:top+'rpx'}">
         </view>
         <view class="tui-mybg-box">
-            
             <view class="tui-header-center">
                 <u-avatar
                     class="user-avatar"
@@ -18,7 +17,7 @@
                     <view class="tui-explain">VIP会员…</view>
                 </view>
                 <view class="tui-btn-edit">
-                    <tui-button type="white" :plain="true" shape="circle" width="92rpx" height="40rpx" :size="22"
+                    <tui-button type="white" :plain="true" shape="circle" width="128rpx" height="50rpx" :size="32"
                                 @click="toRecords('/pages/personal_center/personalCenter')">编辑
                     </tui-button>
                 </view>
@@ -32,7 +31,7 @@
                                        :arrow="true">
                             <view class="tui-item-box">
                                 <!--                                <image class="tui-msg-icon" src="/static/font-icon/bill.png"></image>-->
-                                <tui-icon name="wallet" :size="52" unit="rpx" :color="'#4ad9e8'"></tui-icon>
+                                <tui-icon name="wallet" :size="52" unit="rpx" :color="'#4a77e8'"></tui-icon>
                                 <view class="tui-msg-name">我的收益</view>
                             </view>
                         </tui-list-cell>
@@ -65,7 +64,7 @@ export default {
                 {name: '我要推广', img: "/static/index-icon/tg.png", path: ''},
                 {name: '购物商城', img: '/static/index-icon/mall.png', path: '/pages/Mall/Mall'},
                 {name: '我的订单', img: '/static/index-icon/order.png', path: '/pages/myOrder/myOrder'},
-                {name: '服务网点', img: '/static/index-icon/wd.png', path: ''},
+                {name: '服务网点', img: '/static/index-icon/wd.png', path: '/pages/offlineOutlets/OfflineOutlets'},
                 {name: '平台公告', img: '/static/index-icon/ad.png', path: ''},
                 {name: '商家入驻', img: '/static/index-icon/sj.png', path: ''},
                 {name: 'VIP学习中心', img: '/static/index-icon/xx.png', path: ''},
@@ -122,9 +121,9 @@ page {
 }
 
 .tui-msg-name {
-    font-size: 30rpx;
+    font-size: 32rpx;
     font-weight: bold;
-    color: rgba(48, 48, 48, 1);
+    color: rgb(20, 53, 111);
     margin-left: 31rpx;
 
 }
@@ -210,11 +209,13 @@ page {
     .active {
         //margin-top: 10rpx;
         width: 100%;
+        color: rgb(20, 53, 111);
 
         .active-item {
             display: flex;
             width: 50%;
             height: 160rpx;
+            font-size: 32rpx;
             background: #FFFFFF;
             float: left;
             flex-direction: column;

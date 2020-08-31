@@ -1,7 +1,7 @@
 <template>
     <view class="box">
         <!-- 会员 -->
-        <view class="member">您是尊敬的铂金会员</view>
+        <view class="member">您是：尊敬的<text class="name">铂金会员</text></view>
         <!-- tab栏 -->
         <tui-sticky :scrollTop="scrollTop" stickyHeight="104rpx" container>
             <template v-slot:header>
@@ -141,13 +141,20 @@ page {
     width: 100%;
     padding: 0 30rpx;
     box-sizing: border-box;
-    font-size: 28rpx;
+    font-size: 32rpx;
     color: #333333;
     background: #FFFFFF;
     height: 150rpx;
     display: flex;
     align-items: center;
     margin-bottom: 5rpx;
+
+    .name {
+        font-size: 36rpx;
+        font-weight: bold;
+        color: #f3a25b;
+        margin-left: 10rpx;
+    }
 }
 
 .tab {
@@ -177,8 +184,8 @@ page {
         }
 
         .t-selected {
-            border-bottom: 4rpx solid #81daf5;
-            color: #69b7ea;
+            border-bottom: 4rpx solid #5586d9;
+            color: #2c58dc;
             font-size: 30rpx;
         }
     }

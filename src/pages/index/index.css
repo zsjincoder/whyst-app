@@ -80,7 +80,7 @@
     width: 100%;
     height: 464rpx;
     position: relative;
-    background: linear-gradient(0deg, rgb(199, 228, 241), rgb(39, 160, 231));
+    background: linear-gradient(0deg, rgb(66, 134, 234), rgb(6, 60, 120));
     border-bottom-left-radius: 10%;
     border-bottom-right-radius: 10%;
 }
@@ -117,7 +117,7 @@
 }
 
 .tui-nickname {
-    font-size: 30rpx;
+    font-size: 36rpx;
     font-weight: 500;
     color: #fff;
     display: flex;
@@ -132,7 +132,7 @@
 
 .tui-explain {
     width: 80%;
-    font-size: 24rpx;
+    font-size: 28rpx;
     font-weight: 400;
     color: #fff;
     opacity: 0.75;

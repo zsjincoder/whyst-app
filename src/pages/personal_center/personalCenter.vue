@@ -6,13 +6,13 @@
         <tui-list-cell :unlined="true" :lineLeft="false" :hover="false">
           <view class="tui-item-box">
             <view class="tui-msg-name">头像</view>
-            <image src="/static/images/news/4.jpg" class="tui-msg-pic" mode="widthFix"></image>
+            <image src="/static/logo.png" class="tui-msg-pic" mode="widthFix"></image>
           </view>
         </tui-list-cell>
         <tui-list-cell :unlined="true" :lineLeft="false" :hover="false">
           <view class="tui-item-box">
             <view class="tui-msg-name">昵称</view>
-            <view class="tui-msg-name2">吃藕</view>
+            <view class="tui-msg-name2">zsjin</view>
           </view>
         </tui-list-cell>
       </tui-list-view>
