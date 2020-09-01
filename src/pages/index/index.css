@@ -111,7 +111,7 @@
 }
 
 .tui-info {
-    width: 60%;
+    width: 500rpx;
     padding-left: 30rpx;
 
 }
@@ -144,7 +144,7 @@
 
 .tui-btn-edit {
     flex-shrink: 0;
-    padding-right: 22rpx;
+    padding-right: 0rpx;
 }
 
 .tui-header-btm {

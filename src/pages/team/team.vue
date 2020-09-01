@@ -122,7 +122,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 page {
     background: #F6F6F6;
 }

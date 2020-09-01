@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="w_balance">
-			<view class="w_b_title">钱包余额</view>
+			<view class="w_b_title">全部收益</view>
 			<view class="w_b_money">75465 <span style="font-size:36rpx">（积分）</span> </view>
 		</view>
 		<tui-list-view unlined="all">
