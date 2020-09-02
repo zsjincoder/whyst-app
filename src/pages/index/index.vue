@@ -35,7 +35,6 @@
                       @click="toRecords('/pages/wallet/wallet')">查看更多>></text>
             </view>
         </view>
-        <view class="content_box">
             <view class="c_b_box" :style="{top: (470 + top) +'rpx'}">
                 <view class="active">
                     <view v-for="(item, index) in operate"
@@ -47,19 +46,19 @@
                     </view>
                 </view>
             </view>
-            <!--  轮播  -->
-            <view class="swiper-box">
-                <swiper class="swiper"
-                        :indicator-dots="indicatorDots"
-                        :autoplay="autoplay"
-                        :interval="interval"
-                        :duration="duration">
-                    <swiper-item class="swiper-item" v-for="(item,key) in swiperList">
-                        <image :key="key"
-                               :src="item"></image>
-                    </swiper-item>
-                </swiper>
-            </view>
+        <!--  轮播  -->
+        <view class="swiper-box">
+            <swiper class="swiper"
+                    :indicator-dots="indicatorDots"
+                    :autoplay="autoplay"
+                    :interval="interval"
+                    :duration="duration">
+                <swiper-item v-for="(item,key) in swiperList"
+                             :key="key"
+                             class="swiper-item" >
+                    <image :src="item"></image>
+                </swiper-item>
+            </swiper>
         </view>
     </view>
 </template>
@@ -162,6 +161,8 @@ export default {
 .c_b_box {
     padding: 0 30rpx;
     box-sizing: border-box;
+    width: 100%;
+    min-height: 704rpx;
 }
 
 .home {
@@ -274,6 +275,7 @@ export default {
 .swiper-box{
     width: 100%;
     padding: 0 30rpx;
+    margin-bottom: 50rpx;
     .swiper{
         //border-radius: 10rpx;
         width: 690rpx;
