@@ -3,7 +3,7 @@
 		<tui-list-view unlined="all">
 			<tui-list-cell :lineLeft="false" :padding="'39rpx 30rpx 39rpx 30rpx'" :unlined="true" :hover="false" :arrow="true">
 				<view class="tui-item-box">
-					<view class="tui-msg-name">提现方式</view>
+					<view class="tui-msg-name">充值方式</view>
 					<view class="tui-msg-name tui-msg-name3">微信</view>
 				</view>
 			</tui-list-cell>

@@ -106,9 +106,56 @@
 			"style": {
 				"navigationBarTitleText": "服务网点"
 			}
-		}
-
-	],
+		},
+		{
+            "path" : "pages/personal_center/setNickname/setNickname",
+            "style" : {
+				"navigationBarTitleText": "设置真实姓名"
+			}
+        },
+		{
+            "path" : "pages/personal_center/setPhone/setPhone",
+            "style" : {
+				"navigationBarTitleText": "设置手机号码"
+			}
+        },
+		{
+		    "path" : "pages/commonProblem/commonProblem",
+		    "style" : {
+				"navigationBarTitleText": "帮助中心"
+			}
+		},
+		{
+		    "path" : "pages/questionDetails/questionDetails",
+		    "style" : {
+				"navigationBarTitleText": "问题详情"
+			}
+		},
+		{
+            "path" : "pages/customer/customer",
+            "style" : {"navigationBarTitleText": "客服中心"}
+        },
+		{
+            "path" : "pages/platformAnnouncement/platformAnnouncement",
+            "style" : {"navigationBarTitleText": "平台公告"}
+        },
+		{
+            "path" : "pages/announcementDetails/announcementDetails",
+            "style" : {"navigationBarTitleText": "公告详情"}
+        },
+		{
+            "path" : "pages/extension/extension",
+            "style" : {"navigationBarTitleText": "我要推广"}
+        },
+		{
+            "path" : "pages/businessSettlement/businessSettlement",
+            "style" : {"navigationBarTitleText": "商家入驻"}
+        },
+		{
+            "path" : "pages/personal_center/collectionCode/collectionCode",
+            "style" : {"navigationBarTitleText": "收款码"}
+        }
+    ],
 	"tabBar": {
 		"color": "#7A7E83",
 		"selectedColor": "#14356F",

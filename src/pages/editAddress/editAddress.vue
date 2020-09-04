@@ -1,29 +1,29 @@
 <template>
 	<view class="tui-addr-box">
-		<form :report-submit="true">
+		<form :report-submit="true" @submit="formSubmit">
 			<tui-list-cell :hover="false" padding="0">
 				<view class="tui-line-cell">
 					<view class="tui-title">收货人</view>
-					<input placeholder-class="tui-phcolor" class="tui-input" name="name" placeholder="请输入收货人姓名" maxlength="15" type="text" />
+					<input v-model="formData.name" placeholder-class="tui-phcolor" class="tui-input" name="name" placeholder="请输入收货人姓名" maxlength="15" type="text" />
 				</view>
 			</tui-list-cell>
 			<tui-list-cell :hover="false" padding="0">
 				<view class="tui-line-cell">
 					<view class="tui-title">手机号码</view>
-					<input placeholder-class="tui-phcolor" class="tui-input" name="mobile" placeholder="请输入收货人手机号码" maxlength="11"
-					 type="text" />
+					<input v-model="formData.mobile" placeholder-class="tui-phcolor" class="tui-input" name="mobile" placeholder="请输入收货人手机号码" maxlength="11"
+					 type="number" />
 				</view>
 			</tui-list-cell>
-			<tui-list-cell :arrow="true" padding="0">
+			<tui-list-cell :arrow="true" padding="0"  @click="show = true">
 				<view class="tui-line-cell">
 					<view class="tui-title"><text class="tui-title-city-text">所在城市</text></view>
-					<input placeholder-class="tui-phcolor" class="tui-input" disabled name="city" placeholder="请选择城市" maxlength="50" type="text" />
+					<input v-model="formData.city" placeholder-class="tui-phcolor" class="tui-input" disabled name="city" placeholder="请选择城市" maxlength="50" type="text" />
 				</view>
 			</tui-list-cell>
 			<tui-list-cell :hover="false" padding="0">
 				<view class="tui-line-cell">
 					<view class="tui-title">收货地址</view>
-					<input placeholder-class="tui-phcolor" class="tui-input" name="address" placeholder="请输入详细的收货地址" maxlength="50" type="text" />
+					<input v-model="formData.address" placeholder-class="tui-phcolor" class="tui-input" name="address" placeholder="请输入详细的收货地址" maxlength="50" type="text" />
 				</view>
 			</tui-list-cell>
 
@@ -31,28 +31,97 @@
 			<tui-list-cell :hover="false" padding="0">
 				<view class="tui-swipe-cell">
 					<view>设为默认地址</view>
-					<switch checked color="#19be6b" class="tui-switch-small" />
+					<switch :checked="formData.isDefault" color="#19be6b" class="tui-switch-small" />
 				</view>
 			</tui-list-cell>
 			<!-- 保存地址 -->
 			<view class="tui-addr-save">
-				<tui-button shadow type="danger" height="88rpx" shape="circle">保存收货地址</tui-button>
+				<tui-button shadow type="danger" height="88rpx" shape="circle" formType="submit">保存收货地址</tui-button>
 			</view>
 			<view class="tui-del" v-if="false">
-				<tui-button shadow type="gray" height="88rpx" shape="circle">删除收货地址</tui-button>
+				<tui-button shadow type="gray" height="88rpx" shape="circle" formType="submit">删除收货地址</tui-button>
 			</view>
 		</form>
+		<u-picker
+			mode="region"
+			v-model="show"
+			:defaultRegion="defaultRegion"
+			:params="params"
+			@confirm="confirm"
+			@columnchange="columnchange"
+		></u-picker>
 	</view>
 </template>
 
 <script>
+	const form = require("@/components/thorui/tui-validation/tui-validation.js")
 	export default {
 		data() {
 			return {
-				lists: ["公司", "家", "学校", "其他"]
+				formData:{
+					name:'',
+					mobile:'',
+					city:'',
+					address:'',
+					isDefault: true
+				},
+				
+				defaultRegion: ['重庆市', '市辖区', '渝中区'],
+				show: false,
+				params: {
+					province: true,
+					city: true,
+					area: true
+				}
 			}
 		},
-		methods: {}
+		methods: {
+			confirm(e) {
+				let {area,city,province} = e;
+				this.formData.city = `${province.label}-${city.label}-${area.label}`
+			},
+			columnchange(e) {
+				console.log(e)
+			},
+			formSubmit(e){
+				let rules = [
+					{
+						name: "name",
+						rule: ["required", "isChinese", "minLength:2", "maxLength:6"], //可使用区间，此处主要测试功能
+						msg: ["请输入姓名", "姓名必须全部为中文", "姓名必须2个或以上字符", "姓名不能超过6个字符"]
+					},
+					{
+						name: "mobile",
+						rule: ["required", "isMobile"],
+						msg: ["请输入手机号", "请输入正确的手机号"]
+					},
+					{
+						name: "city",
+						rule: ["required"],
+						msg: ["请选择城市"]
+					},
+					{
+						name: "address",
+						rule: ["required"],
+						msg: ["请输入详细地址"]
+					},
+				]
+				//进行表单检查
+				let formData = e.detail.value;
+				let checkRes = form.validation(formData, rules);
+				if (!checkRes) {
+					uni.showToast({
+						title: "验证通过!",
+						icon: "none"
+					});
+				} else {
+					uni.showToast({
+						title: checkRes,
+						icon: "none"
+					});
+				}
+			}
+		}
 	}
 </script>
 
