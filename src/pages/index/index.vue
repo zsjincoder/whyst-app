@@ -80,10 +80,10 @@ export default {
                 {name: '我的团队', img: "/static/index-icon/team.png", path: '/pages/team/team'},
                 {name: '我要推广', img: "/static/index-icon/tg.png", path: '/pages/extension/extension'},
                 {name: '我的订单', img: '/static/index-icon/order.png', path: '/pages/myOrder/myOrder'},
-                {name: '购物商城', img: '/static/index-icon/mall.png', path: '/pages/Mall/Mall'},
+                {name: '购物商城', img: '/static/index-icon/mall.png', path: '/pages/mall-over/mall-over'},
                 {name: '服务网点', img: '/static/index-icon/wd.png', path: '/pages/offlineOutlets/OfflineOutlets'},
                 {name: '商家入驻', img: '/static/index-icon/rz.png', path: '/pages/businessSettlement/businessSettlement'},
-                {name: '业绩榜单', img: '/static/index-icon/bd.png', path: ''},
+                {name: '业绩榜单', img: '/static/index-icon/bd.png', path: '/pages/rankingList/rankingList'},
                 {name: '客服中心', img: '/static/index-icon/kfzx.png', path: '/pages/customer/customer'},
                 {name: '帮助中心', img: '/static/index-icon/bzzx.png', path: '/pages/commonProblem/commonProblem'},
                 {name: '平台公告', img: '/static/index-icon/ad.png', path: '/pages/platformAnnouncement/platformAnnouncement'},
@@ -110,7 +110,7 @@ export default {
     },
     methods: {
         toRecords(url) {
-            if (url === '/pages/Mall/Mall') {
+            if (url === '/pages/mall-over/mall-over') {
                 uni.switchTab({
                     url
                 })

@@ -1,6 +1,7 @@
 <template>
 	<view class="platform">
 		<view v-for="i in 8" 
+		:key="i"
 		class="platform-item" @click="toPage">
 			<view class="title-info">
 				<view class="title">标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题</view>

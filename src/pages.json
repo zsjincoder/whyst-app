@@ -154,6 +154,14 @@
 		{
             "path" : "pages/personal_center/collectionCode/collectionCode",
             "style" : {"navigationBarTitleText": "收款码"}
+        },
+		{
+            "path" : "pages/mall-over/mall-over",
+            "style" : {"navigationBarTitleText": "商城"}
+        }
+        ,{
+            "path" : "pages/rankingList/rankingList",
+            "style" : {"navigationBarTitleText": "排行榜"}
         }
     ],
 	"tabBar": {
@@ -170,7 +178,7 @@
 				"text": "会员中心"
 			},
 			{
-				"pagePath": "pages/Mall/Mall",
+				"pagePath": "pages/mall-over/mall-over",
 				"iconPath": "static/images/mall.png",
 				"selectedIconPath": "static/images/mall-ac.png",
 				"text": "进入商城"
