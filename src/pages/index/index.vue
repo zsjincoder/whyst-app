@@ -47,6 +47,7 @@
                 </view>
             </view>
         <!--  轮播  -->
+		<button type="primary" open-type="getUserInfo" bindgetuserinfo="getUserInfo">页面主操作 Normal</button>
         <view class="swiper-box">
             <swiper class="swiper"
                     :indicator-dots="indicatorDots"
@@ -111,15 +112,14 @@ export default {
     methods: {
         toRecords(url) {
             if (url === '/pages/mall-over/mall-over') {
-                uni.switchTab({
-                    url
-                })
+                uni.switchTab({url})
             } else {
-                uni.navigateTo({
-                    url
-                })
+                uni.navigateTo({url})
             }
-        }
+        },
+		getUserInfo(res){
+			console.log('1'+JSON.stringify(res));
+		}
     }
 }
 </script>

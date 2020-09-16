@@ -2,6 +2,20 @@
     export default {
         onLaunch: function () {
             console.log('App Launch')
+            uni.login({
+                provider: 'weixin',
+                success: function (loginRes) {
+                    console.log(loginRes);
+					// 获取用户信息
+					    uni.getUserInfo({
+					      provider: 'weixin',
+					      success: function (infoRes) {
+							  console.log(infoRes)
+					        console.log('用户昵称为：' + infoRes.userInfo.nickName);
+					      }
+					    });
+                }
+            });
         },
         onShow: function () {
             console.log('App Show')
@@ -12,14 +26,14 @@
     }
 </script>
 
-<style lang="scss">
+<style >
     /* 注意要写在第一行，同时给style标签加入lang="scss"属性 */
-    @import "uview-ui/index.scss";
+    /*@import "uview-ui/index.scss";*/
     
-    //page {
-    //    font-family: "微软雅黑";
-    //    background: #f6f6f6;
-    //}
+    /*//page {*/
+    /*//    font-family: "微软雅黑";*/
+    /*//    background: #f6f6f6;*/
+    /*//}*/
 
     .icon {
         width: 1em;
