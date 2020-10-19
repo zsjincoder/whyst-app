@@ -2,8 +2,8 @@
 	<view>
 		<view class="mini_divider"></view>
 		<view class="q_detail">
-			<view class="q_title">Q：余额怎么提现？</view>
-			<view class="q_content">A：点击余额，选择提现方式，输入金额提现输入金额...</view>
+			<view class="q_title">Q：{{listItem.question}}</view>
+			<view class="q_content">A：{{listItem.answer}}</view>
 		</view>
 	</view>
 </template>
@@ -12,9 +12,13 @@
 	export default {
 		data() {
 			return {
-				
+				listItem: null
 			}
 		},
+        onLoad: function (option) {
+            const item = JSON.parse(decodeURIComponent(option.item));
+            this.listItem = item
+        },
 		methods: {
 			
 		}

@@ -3,7 +3,6 @@
         <view class="tui-header-box"
               :style="{height:top+'rpx'}">
         </view>
-
         <view class="home-header" :style="{marginTop: top+'rpx'}">
             <view class="user-info">
                 <u-avatar
@@ -14,7 +13,7 @@
                     :show-level="true"></u-avatar>
                 <view class="tui-info">
                     <view class="tui-nickname">呼噜猪zzZ
-                        <image src="/static/images/mall/my/icon_vip_3x.png" class="tui-img-vip"></image>
+<!--                        <image src="/static/images/mall/my/icon_vip_3x.png" class="tui-img-vip"></image>-->
                     </view>
                     <view class="tui-explain">VIP会员…</view>
                 </view>
@@ -47,7 +46,6 @@
                 </view>
             </view>
         <!--  轮播  -->
-		<button type="primary" open-type="getUserInfo" bindgetuserinfo="getUserInfo">页面主操作 Normal</button>
         <view class="swiper-box">
             <swiper class="swiper"
                     :indicator-dots="indicatorDots"
@@ -57,7 +55,7 @@
                 <swiper-item v-for="(item,key) in swiperList"
                              :key="key"
                              class="swiper-item" >
-                    <image :src="item"></image>
+                    <image :src="item.img"></image>
                 </swiper-item>
             </swiper>
         </view>
@@ -65,6 +63,8 @@
 </template>
 
 <script>
+import {banner} from "@/api";
+
 export default {
     data() {
         return {
@@ -102,14 +102,20 @@ export default {
         obj = wx.getMenuButtonBoundingClientRect();
         uni.getSystemInfo({
             success: (res) => {
-                console.log(res);
                 this.top = res.statusBarHeight * 2;
             }
         })
         // #endif
-
+        this.getBannerInfo()
     },
     methods: {
+        //banner图
+        getBannerInfo() {
+            banner({}, 'get').then(res=>{
+                this.swiperList = res.list || []
+            })
+        },
+        //跳转地址
         toRecords(url) {
             if (url === '/pages/mall-over/mall-over') {
                 uni.switchTab({url})
