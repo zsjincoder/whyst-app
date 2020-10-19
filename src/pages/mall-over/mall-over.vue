@@ -181,7 +181,14 @@
 			// #endif
 
 		},
+		onShow() {
+
+		},
 		methods: {
+			//获取商品列表
+			getGoodsList(){
+
+			},
 			detail() {
 				uni.navigateTo({
 					url: "/pages/productDetail/ProductDetail"
