@@ -1,27 +1,51 @@
 <template>
 	<view>
 		<view class="question_list">
-			<view class="q_item" v-for="(item,index) in 3" :key="index" @click="toPage">
-				<view class="q_title">Q：余额怎么提现？</view>
-				<view class="q_content">A：点击余额，选择提现方式，输入金额提现输入金额...</view>
-			</view>
-			<tui-loadmore :index="3" type="orange"></tui-loadmore>
-			<tui-nomore :backgroundColor="'#f6f6f6'"></tui-nomore>
+<!--			<view class="q_item" v-for="(item,index) in questionList" :key="index" @click="toPage(item)">-->
+<!--				<view class="q_title">Q：{{item.question}}</view>-->
+<!--				<view class="q_content">A：{{item.answer}}</view>-->
+<!--			</view>-->
+            <list-loading></list-loading>
+            <tui-nomore :backgroundColor="'#f6f6f6'"></tui-nomore>
 		</view>
 	</view>
 </template>
 
 <script>
-	export default {
+	import {question} from "@/api";
+
+    export default {
 		data() {
 			return {
-				
+			    loadingType: 1,
+				questionList: [],
+                pageData: {
+				    page: 1,
+                    limit: 10,
+                    total: 0
+                }
 			}
 		},
+        onLoad(){
+            this.getQuestion()
+        },
+        onReachBottom(){
+		    this.pageData.page ++;
+		    // this.getQuestion();
+            this.loadingType = 1
+            console.log('底部了');
+        },
 		methods: {
-			toPage(){
-				uni.navigateTo({
-					url:'/pages/questionDetails/questionDetails'
+		    // 获取答疑列表
+            getQuestion(){
+                this.loadingType = 2
+                question(this.pageData, 'get').then(res=>{
+                    this.questionList = res.list
+                })
+            },
+			toPage(item){
+                    uni.navigateTo({
+					url:'/pages/questionDetails/questionDetails?item='+ encodeURIComponent(JSON.stringify(item))
 				})
 			}
 		}
@@ -33,7 +57,7 @@
 		background: #F6F6F6;
 	}
 	.question_list{
-		
+		width: 100%;
 	}
 	.q_item{
 		width:100%;
@@ -51,5 +75,9 @@
 		font-size:28rpx;
 		color:rgba(33,33,33,1);
 		margin-top: 22rpx;
+        overflow: hidden;
+        height:36rpx;
+        text-overflow: ellipsis;
+        white-space: nowrap;
 	}
 </style>
