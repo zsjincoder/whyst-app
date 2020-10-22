@@ -10,7 +10,7 @@
 			<tui-list-cell :hover="false" padding="0">
 				<view class="tui-line-cell">
 					<view class="tui-title">手机号码</view>
-					<input v-model="formData.mobile" placeholder-class="tui-phcolor" class="tui-input" name="mobile" placeholder="请输入收货人手机号码" maxlength="11"
+					<input v-model="formData.phone" placeholder-class="tui-phcolor" class="tui-input" name="mobile" placeholder="请输入收货人手机号码" maxlength="11"
 					 type="number" />
 				</view>
 			</tui-list-cell>
@@ -31,14 +31,18 @@
 			<tui-list-cell :hover="false" padding="0">
 				<view class="tui-swipe-cell">
 					<view>设为默认地址</view>
-					<switch :checked="formData.isDefault" color="#19be6b" class="tui-switch-small" />
+					<switch :checked="formData.is_default" color="#19be6b" class="tui-switch-small" />
 				</view>
 			</tui-list-cell>
 			<!-- 保存地址 -->
-			<view class="tui-addr-save">
-				<tui-button shadow type="danger" height="88rpx" shape="circle" formType="submit">保存收货地址</tui-button>
+			<view class="tui-addr-save" v-if="isAdd">
+				<tui-button shadow
+							type="danger"
+							height="88rpx"
+							shape="circle"
+							formType="submit">保存收货地址</tui-button>
 			</view>
-			<view class="tui-del" v-if="false">
+			<view class="tui-del" v-else>
 				<tui-button shadow type="gray" height="88rpx" shape="circle" formType="submit">删除收货地址</tui-button>
 			</view>
 		</form>
@@ -54,18 +58,22 @@
 </template>
 
 <script>
+	import {shippingAddress} from "@/api";
+
 	const form = require("@/components/thorui/tui-validation/tui-validation.js")
 	export default {
 		data() {
 			return {
+				//是否新增
+				isAdd: true,
 				formData:{
 					name:'',
-					mobile:'',
+					phone:'',
 					city:'',
 					address:'',
-					isDefault: true
+					is_default: true
 				},
-				
+
 				defaultRegion: ['重庆市', '市辖区', '渝中区'],
 				show: false,
 				params: {
@@ -74,6 +82,10 @@
 					area: true
 				}
 			}
+		},
+		onLoad(e){
+			console.log(e);
+			this.isAdd = !e.hasOwnProperty('id')
 		},
 		methods: {
 			confirm(e) {
@@ -91,7 +103,7 @@
 						msg: ["请输入姓名", "姓名必须全部为中文", "姓名必须2个或以上字符", "姓名不能超过6个字符"]
 					},
 					{
-						name: "mobile",
+						name: "phone",
 						rule: ["required", "isMobile"],
 						msg: ["请输入手机号", "请输入正确的手机号"]
 					},
@@ -114,12 +126,22 @@
 						title: "验证通过!",
 						icon: "none"
 					});
+					this.saveAddress()
 				} else {
 					uni.showToast({
 						title: checkRes,
 						icon: "none"
 					});
 				}
+			},
+			//新增保存地址
+			saveAddress(){
+				shippingAddress(this.formData,"post").then(res=>{
+					uni.showToast({
+						title: "新增地址成功!",
+						icon: "success"
+					});
+				})
 			}
 		}
 	}

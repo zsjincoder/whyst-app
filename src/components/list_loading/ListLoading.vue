@@ -3,7 +3,7 @@
         {{type}}
         <tui-loadmore :index="3"
                       type="orange"></tui-loadmore>
-        <tui-nomore v-if="showNoMore"
+        <tui-nomore v-show="showNoMore"
                     :backgroundColor="'#f6f6f6'"></tui-nomore>
     </view>
 </template>
@@ -40,7 +40,7 @@ export default {
             showNoMore: false
         }
     }
-    
+
 }
 </script>
 

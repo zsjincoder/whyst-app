@@ -1,11 +1,13 @@
 <template>
 	<view>
 		<view class="question_list">
-<!--			<view class="q_item" v-for="(item,index) in questionList" :key="index" @click="toPage(item)">-->
-<!--				<view class="q_title">Q：{{item.question}}</view>-->
-<!--				<view class="q_content">A：{{item.answer}}</view>-->
-<!--			</view>-->
-            <list-loading></list-loading>
+			<view v-for="(item,index) in questionList"
+				  :key="index"
+				  @click="toPage(item)"
+				  class="q_item" >
+				<view class="q_title">Q：{{item.question}}</view>
+				<view class="q_content">A：{{item.answer}}</view>
+			</view>
             <tui-nomore :backgroundColor="'#f6f6f6'"></tui-nomore>
 		</view>
 	</view>
@@ -17,7 +19,6 @@
     export default {
 		data() {
 			return {
-			    loadingType: 1,
 				questionList: [],
                 pageData: {
 				    page: 1,
@@ -26,21 +27,23 @@
                 }
 			}
 		},
-        onLoad(){
+        onShow(){
+			this.questionList = [];
+			this.pageData.page = 1;
             this.getQuestion()
         },
         onReachBottom(){
 		    this.pageData.page ++;
-		    // this.getQuestion();
-            this.loadingType = 1
+		    this.getQuestion();
             console.log('底部了');
         },
 		methods: {
 		    // 获取答疑列表
             getQuestion(){
-                this.loadingType = 2
                 question(this.pageData, 'get').then(res=>{
-                    this.questionList = res.list
+                	let {list , total} = res;
+                	this.pageData.total = total;
+                    this.needToLoadMore(this.questionList,this.pageData, list)
                 })
             },
 			toPage(item){

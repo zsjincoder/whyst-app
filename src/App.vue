@@ -1,35 +1,16 @@
 <script>
+import {getUserInfo} from "@/libs/utils";
+
 export default {
     onLaunch: function () {
         console.log('App Launch')
     },
     onShow: function () {
+        getUserInfo()
         console.log('App Show')
     },
     onHide: function () {
         console.log('App Hide')
-    },
-    methods: {
-        getUserInfo(){
-            uni.login({
-                provider: 'weixin',
-                success: function (loginRes) {
-                    console.log(loginRes);
-                    // 获取用户信息
-                    uni.getUserInfo({
-                        provider: 'weixin',
-                        success: (infoRes)=> {
-                            console.log(infoRes)
-                            console.log('用户昵称为：' + infoRes.userInfo.nickName);
-                        }
-                    });
-                },
-                fail: (err)=>{
-                    console.log(err);
-                    this.getUserInfo()
-                }
-            });
-        }
     }
 }
 </script>

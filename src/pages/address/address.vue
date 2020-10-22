@@ -31,17 +31,26 @@
 </template>
 
 <script>
+	import {shippingAddress} from "@/api";
+
 	export default {
 		data() {
 			return {
-				addressList: [1,2,3]
+				addressList: [1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3]
 			}
 		},
 		onLoad: function(options) {
 
 		},
-		onShow: function() {},
+		onShow() {
+			this.getAddress()
+		},
 		methods: {
+			getAddress(){
+				shippingAddress({},'get').then(res=>{
+
+				})
+			},
 			editAddr(index, addressType) {
 				uni.navigateTo({
 					url: "../editAddress/editAddress"

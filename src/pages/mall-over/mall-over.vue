@@ -28,15 +28,15 @@
 						<block v-for="(item, index) in productList" :key="index" v-if="(index + 1) % 2 != 0">
 							<!--商品列表-->
 							<view class="tui-pro-item" hover-class="hover" :hover-start-time="150" @tap="detail">
-								<image src="/static/ewm.png" class="tui-pro-img" mode="widthFix" />
+								<image :src="item.stock[0].image" class="tui-pro-img" mode="widthFix" />
 								<view class="tui-pro-content">
 									<view class="tui-pro-tit">{{ item.name }}</view>
 									<view>
 										<view class="tui-pro-price">
-											<text class="tui-sale-price">￥{{ item.sale }}</text>
-											<text class="tui-factory-price">￥{{ item.factory }}</text>
+											<text class="tui-sale-price">￥{{ item.lowPrice }}</text>
+<!--											<text class="tui-factory-price">￥{{ item.lowPrice }}</text>-->
 										</view>
-										<view class="tui-pro-pay">{{ item.payNum }}人付款</view>
+										<view class="tui-pro-pay">{{ item.numberOfPayments || 0 }}人付款</view>
 									</view>
 								</view>
 							</view>
@@ -48,15 +48,15 @@
 						<block v-for="(item, index) in productList" :key="index" v-if="(index + 1) % 2 == 0">
 							<!--商品列表-->
 							<view class="tui-pro-item" hover-class="hover" :hover-start-time="150" @tap="detail">
-								<image src="/static/ewm.png" class="tui-pro-img" mode="widthFix" />
+								<image :src="item.stock[0].image" class="tui-pro-img" mode="widthFix" />
 								<view class="tui-pro-content">
 									<view class="tui-pro-tit">{{ item.name }}</view>
 									<view>
 										<view class="tui-pro-price">
-											<text class="tui-sale-price">￥{{ item.sale }}</text>
-											<text class="tui-factory-price">￥{{ item.factory }}</text>
+											<text class="tui-sale-price">￥{{ item.lowPrice || 0}}</text>
+<!--											<text class="tui-factory-price">￥{{ item.lowPrice || 0 }}</text>-->
 										</view>
-										<view class="tui-pro-pay">{{ item.payNum }}人付款</view>
+										<view class="tui-pro-pay">{{ item.numberOfPayments || 0 }}人付款</view>
 									</view>
 								</view>
 							</view>
@@ -73,6 +73,8 @@
 </template>
 
 <script>
+	import {goods} from "@/api";
+
 	export default {
 		data() {
 			return {
@@ -92,7 +94,8 @@
 
 				headerImg: require('../../static/bg.png'),
 				search: '',
-				productList: [{
+				productList: [
+						{
 						img: 1,
 						name: '欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）',
 						sale: 599,
@@ -163,11 +166,26 @@
 						payNum: 236
 					}
 				],
+				pageData: {
+					page: 1,
+					limit: 10,
+					total: 0
+				}
 			};
 		},
 		//页面滚动执行方式
 		onPageScroll(e) {
 			this.scrollTop = e.scrollTop
+		},
+		onShow(){
+			this.productList = [];
+			this.pageData.page = 1;
+			this.getGoodsList()
+		},
+		onReachBottom(){
+			this.pageData.page ++;
+			this.getGoodsList();
+			console.log('底部了');
 		},
 		onLoad() {
 			let obj = {};
@@ -179,15 +197,15 @@
 				}
 			})
 			// #endif
-
-		},
-		onShow() {
-
 		},
 		methods: {
 			//获取商品列表
 			getGoodsList(){
-
+				goods(this.pageData, 'get').then(res=>{
+					let {list , total} = res;
+					this.pageData.total = total;
+					this.needToLoadMore(this.productList,this.pageData, list)
+				})
 			},
 			detail() {
 				uni.navigateTo({
