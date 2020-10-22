@@ -153,7 +153,7 @@
 	}
 </script>
 
-<style>
+<style lang="less">
 	.container {
 		padding-bottom: 118rpx;
 	}

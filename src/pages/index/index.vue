@@ -7,15 +7,17 @@
             <view class="user-info">
                 <u-avatar
                     class="user-avatar"
-                    :src="src"
+                    :src="userInfo.headimgUrl || ''"
                     size="large"
                     :show-sex="true"
+                    :sex-icon="userInfo.sex === 1 ? 'man' : 'woman'"
                     :show-level="true"></u-avatar>
                 <view class="tui-info">
-                    <view class="tui-nickname">呼噜猪zzZ
+                    <view class="tui-nickname">
+                        {{userInfo.nickname || ''}}
 <!--                        <image src="/static/images/mall/my/icon_vip_3x.png" class="tui-img-vip"></image>-->
                     </view>
-                    <view class="tui-explain">VIP会员…</view>
+                    <view class="tui-explain">{{userInfo.levelName || ''}}</view>
                 </view>
                 <view class="tui-btn-edit">
                     <tui-icon name="setup"
@@ -28,7 +30,7 @@
             <view class="my-income">
                 <view class="income-con">
                     <view class="my-income-name">可用积分</view>
-                    <view class="my-income-number">2000</view>
+                    <view class="my-income-number">{{integral}}</view>
                 </view>
                 <text class="income-more"
                       @click="toRecords('/pages/wallet/wallet')">查看更多>></text>
@@ -63,11 +65,17 @@
 </template>
 
 <script>
-import {banner} from "@/api";
+    import {banner, Integral} from "@/api";
+    import {getUserInfoForStorage, judgeIsLogin} from "@/libs/utils";
+import {mapGetters} from "vuex";
 
 export default {
     data() {
         return {
+            //用户积分
+            integral: 0,
+
+
             //轮播参数
             autoplay:true,
             interval:1800,
@@ -79,15 +87,15 @@ export default {
             userName: "张三",
             operate: [
                 {name: '我的团队', img: "/static/index-icon/team.png", path: '/pages/team/team'},
-                {name: '我要推广', img: "/static/index-icon/tg.png", path: '/pages/extension/extension'},
-                {name: '我的订单', img: '/static/index-icon/order.png', path: '/pages/myOrder/myOrder'},
+                {name: '我要推广', img: "/static/index-icon/tg.png", path: '/packageB/pages/extension/extension'},
+                {name: '我的订单', img: '/static/index-icon/order.png', path: '/packageA/pages/myOrder/myOrder'},
                 {name: '购物商城', img: '/static/index-icon/mall.png', path: '/pages/mall-over/mall-over'},
-                {name: '服务网点', img: '/static/index-icon/wd.png', path: '/pages/offlineOutlets/OfflineOutlets'},
-                {name: '商家入驻', img: '/static/index-icon/rz.png', path: '/pages/businessSettlement/businessSettlement'},
-                {name: '业绩榜单', img: '/static/index-icon/bd.png', path: '/pages/rankingList/rankingList'},
-                {name: '客服中心', img: '/static/index-icon/kfzx.png', path: '/pages/customer/customer'},
-                {name: '帮助中心', img: '/static/index-icon/bzzx.png', path: '/pages/commonProblem/commonProblem'},
-                {name: '平台公告', img: '/static/index-icon/ad.png', path: '/pages/platformAnnouncement/platformAnnouncement'},
+                {name: '服务网点', img: '/static/index-icon/wd.png', path: '/packageC/pages/offlineOutlets/OfflineOutlets'},
+                {name: '商家入驻', img: '/static/index-icon/rz.png', path: '/packageB/pages/businessSettlement/businessSettlement'},
+                {name: '业绩榜单', img: '/static/index-icon/bd.png', path: '/packageB/pages/rankingList/rankingList'},
+                {name: '客服中心', img: '/static/index-icon/kfzx.png', path: '/packageB/pages/customer/customer'},
+                {name: '帮助中心', img: '/static/index-icon/bzzx.png', path: '/packageB/pages/commonProblem/commonProblem'},
+                {name: '平台公告', img: '/static/index-icon/ad.png', path: '/packageB/pages/platformAnnouncement/platformAnnouncement'},
                 {name: 'VIP学习中心', img: '/static/index-icon/xx.png', path: ''},
             ],
             swiperList:[
@@ -106,7 +114,18 @@ export default {
             }
         })
         // #endif
+
+    },
+    onShow() {
         this.getBannerInfo()
+        Integral({},'get').then(res=>{
+            this.integral = res.integral;
+        })
+    },
+    computed:{
+      ...mapGetters({
+          userInfo:'getUserInfo'
+      })
     },
     methods: {
         //banner图
@@ -125,7 +144,8 @@ export default {
         },
 		getUserInfo(res){
 			console.log('1'+JSON.stringify(res));
-		}
+		},
+        getUserInfoForStorage: getUserInfoForStorage,
     }
 }
 </script>

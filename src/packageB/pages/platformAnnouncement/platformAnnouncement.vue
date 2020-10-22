@@ -1,8 +1,8 @@
 <template>
 	<view class="platform">
 		<view v-for="(item,index) in announcementList"
-		:key="i"
-		class="platform-item" @click="toPage">
+		:key="index"
+		class="platform-item" @click="toPage(item.id)">
 			<view class="title-info">
 				<view class="title">{{item.title}}</view>
 				<view class="time">{{item.createTime}}</view>
@@ -46,9 +46,9 @@
 					this.needToLoadMore(this.announcementList,this.pageData, list)
 				})
 			},
-			toPage(){
+			toPage(id){
 				uni.navigateTo({
-					url:'/pages/announcementDetails/announcementDetails'
+					url:'/pages/announcementDetails/announcementDetails?id='+id
 				})
 			}
 		}
@@ -79,7 +79,7 @@
 				.title{
 					width: 600rpx;
 					height: 50rpx;
-					font-size: 36rpx;
+					font-size: 32rpx;
 					margin-bottom: 10rpx;
 					overflow: hidden;
 					text-overflow: ellipsis;

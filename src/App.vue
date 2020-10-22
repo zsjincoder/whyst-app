@@ -1,16 +1,22 @@
 <script>
 import {getUserInfo} from "@/libs/utils";
+import Vue from "@dcloudio/vue-cli-plugin-uni/packages/h5-vue";
 
 export default {
     onLaunch: function () {
+        getUserInfo()
         console.log('App Launch')
     },
     onShow: function () {
-        getUserInfo()
         console.log('App Show')
     },
     onHide: function () {
         console.log('App Hide')
+    },
+    mounted() {
+        //vConsole
+        // const vConsole = require('vconsole')
+        // let vc = new vConsole()
     }
 }
 </script>

@@ -9,6 +9,14 @@ export const login = (data, method) => {
     return axios.request(handleRestful(`/index/mini_program/login`, data, method))
 }
 
+/**
+ * 获取用户信息
+ * @return {AxiosPromise}
+ */
+export const getInfo = (data, method) => {
+    return axios.request(handleRestful(`/member/info`, data, method))
+}
+
 
 /**
  * banner
@@ -48,4 +56,20 @@ export const goods = (data, method) => {
  */
 export const shippingAddress = (data, method) => {
     return axios.request(handleRestful(`/member/shipping_address`, data, method))
+}
+
+/**
+ * 获取用户积分
+ * @return {AxiosPromise}
+ */
+export const Integral = (data, method) => {
+    return axios.request(handleRestful(`/member/Integral`, data, method))
+}
+
+/**
+ * 用户积分充值
+ * @return {AxiosPromise}
+ */
+export const recharge = (data, method) => {
+    return axios.request(handleRestful(`/member/integral/recharge`, data, method))
 }

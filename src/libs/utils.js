@@ -1,4 +1,60 @@
-import {login} from "@/api";
+import {getInfo, login} from "@/api";
+import store from "@/store"
+
+/**
+ * 获取用户信息并登录
+ */
+export const getUserInfo = () =>{
+    if (store.state.user.isLogin) return false;
+    uni.login({
+        provider: 'weixin',
+        success: function (loginRes) {
+            // console.log(loginRes);
+            let code = loginRes.code;
+            // 获取用户信息
+            uni.getUserInfo({
+                provider: 'weixin',
+                success: (infoRes)=> {
+                    console.log(infoRes)
+                    let {iv , encryptedData} = infoRes
+                    // console.log('用户昵称为：' + infoRes.userInfo.nickName);
+                    let params = {code, iv, encryptedData}
+                    login(params,'post').then(res=>{
+                        // console.log(res);
+                        let {token} = res
+                        store.commit("setToken",token)
+                        getInfo({token},'get').then(res=>{
+                            console.log(res);
+                            store.commit("setIsLogin",true)
+                            store.commit("setUserInfo",{...res,token})
+                            console.log(store.state,"store");
+                        })
+
+                    })
+                }
+            });
+        },
+        fail: (err)=>{
+            console.log(err);
+            this.getUserInfo()
+        }
+    });
+}
+
+/**
+ * 轮询判断是否登录
+ * @return {Promise<unknown>}
+ */
+export const judgeIsLogin = () =>{
+    return new Promise((resolve, reject) => {
+        let timer = setInterval(() => {
+            if (store.state.user.isLogin) {
+                clearInterval(timer)
+                resolve(true)
+            }
+        }, 500)
+    })
+}
 
 /**
  * 处理restfulApi参数
@@ -36,47 +92,26 @@ export const needToLoadMore = (saveList, pageData, list) => {
 }
 
 /**
- * 获取token
- * @return {string|CancelToken}
+ * 截取手机号码中间变成*号
+ * @param phone
+ * @return {string}
  */
-export const getTokens = () =>{
+export const formatPhone = (phone) =>{
+    let replaceStr = phone.toString().substr(3,4)
+    return phone.toString().replace(replaceStr,"****");
+}
+
+/**
+ * 获取缓存中的用户数据
+ * @param key
+ * @return {string|*}
+ */
+export const getUserInfoForStorage = (key) =>{
     let userInfo = uni.getStorageSync('userInfo')
     if (!userInfo) return ''
-    else {
-        let u = JSON.parse(userInfo)
-        return u.token
+    else if (!userInfo.hasOwnProperty(key)) {
+        return ''
+    }else {
+        return userInfo[key]
     }
-}
-/**
- * 获取用户信息并登录
- */
-export const getUserInfo = () =>{
-    uni.login({
-        provider: 'weixin',
-        success: function (loginRes) {
-            // console.log(loginRes);
-            let code = loginRes.code;
-            // 获取用户信息
-            uni.getUserInfo({
-                provider: 'weixin',
-                success: (infoRes)=> {
-                    // console.log(infoRes)
-                    let {iv , encryptedData} = infoRes
-                    console.log('用户昵称为：' + infoRes.userInfo.nickName);
-                    let params = {code, iv, encryptedData}
-                    login(params,'post').then(res=>{
-                        console.log(res);
-                        let {token} = res
-                        uni.setStorageSync('userInfo', JSON.stringify({...infoRes.userInfo,token}));
-                        let userInfo = uni.getStorageSync('userInfo')
-                        console.log(userInfo);
-                    })
-                }
-            });
-        },
-        fail: (err)=>{
-            console.log(err);
-            this.getUserInfo()
-        }
-    });
 }

@@ -1,6 +1,10 @@
 import config from '@/config'
 import axios from 'axios-miniprogram';
-import {getTokens, getUserInfo} from "@/libs/utils";
+import {getUserInfo, judgeIsLogin} from "@/libs/utils";
+import store from "@/store";
+
+//白名单
+const whiteList = ['/index/mini_program/login','/member/info']
 
 const baseURL = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config.baseUrl.pro
 
@@ -18,10 +22,16 @@ const instance = axios.create({
 });
 
 // 添加请求拦截器
-instance.interceptors.request.use(function (config) {
+instance.interceptors.request.use( async (config)=> {
     // 在发送请求之前做些什么
-    config.headers.token = getTokens() || '';
-    return config;
+    if (whiteList.includes(config.url)){
+        config.headers.token = store.state.user.token || '';
+        return config
+    }else {
+        await judgeIsLogin()
+        config.headers.token = store.state.user.token || '';
+        return config
+    }
 }, function (error) {
     //处理请求错误
     return Promise.reject(error);
@@ -48,7 +58,7 @@ instance.interceptors.response.use(function (response) {
     } else {
         uni.showModal({
             title:'服务器内部错误',
-            content: `,错误信息：${data.message},错误码：${status}`
+            content: `,错误信息：${data.message || '无'},错误码：${status || '无'}`
         })
         return Promise.reject(data)
     }

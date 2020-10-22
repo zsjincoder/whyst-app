@@ -23,21 +23,46 @@
 		</view>
 		<!-- 提交按钮 -->
 		<view class="r_send">
-			<view class="r_s_button" :style="{background:money == 0?'#8198dd':'#334dcd'}">充值</view>
+			<view class="r_s_button" :style="{background:money === 0?'#8198dd':'#334dcd',disable: loading}" @click="rechargeMoney">充值</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {recharge} from "@/api";
+
 	export default {
 		data() {
 			return {
+				loading: false,
 				money:0,
 			}
 		},
 		methods: {
+			//充值
+			rechargeMoney(){
+				this.loading = true;
+				recharge({money:Number(this.money)},'post').then(res=>{
+					console.log(res);
+					let {timeStamp,nonceStr,signType,paySign} = res;
+					wx.requestPayment({
+						timeStamp:res.timeStamp.toString(),
+						nonceStr,
+						package: res.package,
+						signType,
+						paySign,
+						success (res) {
+							console.log(res);
+							this.loading = false
+						},
+						fail (res) {
+							console.log(res);
+						}
+					})
+				})
+			},
 			deleteAll(){
-				this.money = 0; 
+				this.money = 0;
 			}
 		}
 	}
@@ -103,7 +128,7 @@
 		padding: 0 35rpx;
 		box-sizing: border-box;
 		margin-top: 73rpx;
-	
+
 		.r_s_button {
 			height: 82rpx;
 			// background: rgba(51, 205, 161, 1);

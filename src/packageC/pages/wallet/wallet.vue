@@ -2,7 +2,7 @@
 	<view>
 		<view class="w_balance">
 			<view class="w_b_title">全部收益</view>
-			<view class="w_b_money">75465 <span style="font-size:36rpx">（积分）</span> </view>
+			<view class="w_b_money">{{integral || 0}} <span style="font-size:36rpx">（积分）</span> </view>
 		</view>
 		<tui-list-view unlined="all">
 			<tui-list-cell :lineLeft="false" @click="toRecords('/pages/recharge/recharge')" :padding="'39rpx 26rpx 39rpx 26rpx'" :arrow="true">
@@ -32,15 +32,22 @@
 </template>
 
 <script>
+	import {Integral} from "@/api";
+
 	export default {
 		data() {
 			return {
-
+				//用户积分
+				integral: 0,
 			}
+		},
+		onShow(){
+			Integral({},'get').then(res=>{
+				this.integral = res.integral;
+			})
 		},
 		methods: {
             toRecords(url) {
-                console.log(url)
                 uni.navigateTo({
                     url
                 })

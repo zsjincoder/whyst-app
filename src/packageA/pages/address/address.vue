@@ -6,18 +6,18 @@
 					<view class="tui-address-flex">
 						<view class="tui-address-left">
 							<view class="tui-address-main">
-								<view class="tui-address-name tui-ellipsis">{{["echo.","王大大","大长腿"][index]}}</view>
-								<view class="tui-address-tel">138****7708</view>
+								<view class="tui-address-name tui-ellipsis">{{item.name}}</view>
+								<view class="tui-address-tel">{{formatPhone(item.phone)}}</view>
 							</view>
 							<view class="tui-address-detail">
 								<view class="tui-address-label" v-if="index===0">默认</view>
-								<text>重庆这儿哪儿</text>
+								<text>{{item.address}}</text>
 							</view>
 						</view>
 						<view class="tui-address-imgbox">
 							<image class="tui-address-img"
                                    src="/static/images/icon_addr_edit.png"
-                                   @click="editAddr"/>
+                                   @click="editAddr(item.id)"/>
 						</view>
 					</view>
 				</tui-list-cell>
@@ -25,18 +25,19 @@
 		</view>
 		<!-- 新增地址 -->
 		<view class="tui-address-new">
-			<tui-button shadow shape="circle" type="danger" height="88rpx" @click="editAddr">+ 新增收货地址</tui-button>
+			<tui-button shadow shape="circle" type="danger" height="88rpx" @click="editAddr(false)">+ 新增收货地址</tui-button>
 		</view>
 	</view>
 </template>
 
 <script>
 	import {shippingAddress} from "@/api";
+	import {formatPhone} from "@/libs/utils";
 
 	export default {
 		data() {
 			return {
-				addressList: [1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3]
+				addressList: []
 			}
 		},
 		onLoad: function(options) {
@@ -46,21 +47,22 @@
 			this.getAddress()
 		},
 		methods: {
+			formatPhone:formatPhone,
 			getAddress(){
 				shippingAddress({},'get').then(res=>{
-
+					this.addressList = res
 				})
 			},
-			editAddr(index, addressType) {
+			editAddr(id) {
 				uni.navigateTo({
-					url: "../editAddress/editAddress"
+					url: "../editAddress/editAddress"+ `${id ? `?id=${id}` : ''}`
 				})
 			}
 		}
 	}
 </script>
 
-<style>
+<style lang="less">
 	.tui-address {
 		width: 100%;
 		padding-top: 20rpx;
