@@ -21,14 +21,14 @@
 		<view class="i_space">
 			<tui-list-view unlined="all">
 
-				<tui-list-cell :lineLeft="false" :padding="'39rpx 26rpx 39rpx 26rpx'" @click="toPage('/pages/personal_center/setNickname/setNickname')"
+				<tui-list-cell :lineLeft="false" :padding="'39rpx 26rpx 39rpx 26rpx'" @click="toPage('/packageC/pages/personal_center/setNickname/setNickname')"
 				 :arrow="true">
 					<view class="tui-item-box">
 						<view class="tui-msg-name">真实姓名</view>
 						<view class="tui-msg-name2">zsjin</view>
 					</view>
 				</tui-list-cell>
-				<tui-list-cell :lineLeft="false" :padding="'39rpx 26rpx 39rpx 26rpx'" @click="toPage('/pages/personal_center/collectionCode/collectionCode')" 
+				<tui-list-cell :lineLeft="false" :padding="'39rpx 26rpx 39rpx 26rpx'" @click="toPage('/packageC/pages/personal_center/collectionCode/collectionCode')"
 				:arrow="true">
 					<view class="tui-item-box">
 						<view class="tui-msg-name">收款码</view>
@@ -47,14 +47,14 @@
 						</view>
 					</picker>
 				</tui-list-cell>
-				<tui-list-cell :lineLeft="false" :padding="'39rpx 26rpx 39rpx 26rpx'" :arrow="true" 
-				@click="toPage('/pages/personal_center/setPhone/setPhone')">
+				<tui-list-cell :lineLeft="false" :padding="'39rpx 26rpx 39rpx 26rpx'" :arrow="true"
+				@click="toPage('/packageC/pages/personal_center/setPhone/setPhone')">
 					<view class="tui-item-box">
 						<view class="tui-msg-name">联系电话</view>
 						<view class="tui-msg-name2">18323398512</view>
 					</view>
 				</tui-list-cell>
-				<tui-list-cell :lineLeft="false" :padding="'39rpx 26rpx 39rpx 26rpx'" :arrow="true" @click="toPage('/pages/address/address')">
+				<tui-list-cell :lineLeft="false" :padding="'39rpx 26rpx 39rpx 26rpx'" :arrow="true" @click="toPage('/packageA/pages/address/address')">
 					<view class="tui-item-box">
 						<view class="tui-msg-name">收货地址</view>
 						<view class="tui-msg-name2"></view>

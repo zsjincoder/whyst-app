@@ -3,17 +3,17 @@
 		<view class="title">微信收款码：</view>
 		<view class="upload-body">
 			<tui-upload class="upload-img" limit="1"
-						:value="value" 
+						:value="value"
 						:serverUrl="serverUrl"
-						 @complete="result" 
+						 @complete="result"
 						 @remove="remove"></tui-upload>
 		</view>
 		<view class="title">支付宝收款码：</view>
 		<view class="upload-body">
 			<tui-upload class="upload-img" limit="1"
-						:value="value" 
+						:value="value"
 						:serverUrl="serverUrl"
-						 @complete="result" 
+						 @complete="result"
 						 @remove="remove"></tui-upload>
 		</view>
 		<view class="info">请上传收款码（至少上传一个）</view>
@@ -52,7 +52,7 @@ page{
 .collection-code {
 	display: inline-block;
 	width: 100%;
-	
+
 	.info {
 		width: 100%;
 		padding: 20rpx;
@@ -65,6 +65,8 @@ page{
 	.upload-body{
 		width: 100%;
 		height: 500rpx;
+		display: flex;
+		align-items: center;
 		.upload-img {
 			padding-left: 20rpx;
 			/deep/.tui-image-item,
@@ -74,7 +76,7 @@ page{
 				height: 500rpx;
 				background: #FFFFFF;
 			}
-			
+
 		}
 	}
 }

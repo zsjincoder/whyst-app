@@ -48,7 +48,7 @@
 			},
 			toPage(id){
 				uni.navigateTo({
-					url:'/pages/announcementDetails/announcementDetails?id='+id
+					url:'/packageB/pages/announcementDetails/announcementDetails?id='+id
 				})
 			}
 		}

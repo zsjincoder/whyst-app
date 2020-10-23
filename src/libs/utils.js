@@ -2,6 +2,24 @@ import {getInfo, login} from "@/api";
 import store from "@/store"
 
 /**
+ * 判断用户是否授权用户信息
+ */
+export const getAuthorization = () =>{
+    uni.getSetting({
+        success(res) {
+            if (! res.authSetting.hasOwnProperty("scope.userInfo")){
+                 console.log("没有权限")
+                uni.redirectTo({
+                    url:'/pages/authorization/Authorization'
+                })
+            }else {
+                getUserInfo()
+            }
+        }
+    })
+}
+
+/**
  * 获取用户信息并登录
  */
 export const getUserInfo = () =>{
@@ -28,6 +46,9 @@ export const getUserInfo = () =>{
                             store.commit("setIsLogin",true)
                             store.commit("setUserInfo",{...res,token})
                             console.log(store.state,"store");
+                            uni.switchTab({
+                                url:'/pages/index/index'
+                            })
                         })
 
                     })

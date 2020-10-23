@@ -5,13 +5,13 @@
 			<view class="w_b_money">{{integral || 0}} <span style="font-size:36rpx">（积分）</span> </view>
 		</view>
 		<tui-list-view unlined="all">
-			<tui-list-cell :lineLeft="false" @click="toRecords('/pages/recharge/recharge')" :padding="'39rpx 26rpx 39rpx 26rpx'" :arrow="true">
+			<tui-list-cell :lineLeft="false" @click="toRecords('/packageA/pages/recharge/recharge')" :padding="'39rpx 26rpx 39rpx 26rpx'" :arrow="true">
 				<view class="tui-item-box">
 					<image class="tui-msg-icon" src="/static/wallet-icon/充值.png"></image>
 					<view class="tui-msg-name">充值</view>
 				</view>
 			</tui-list-cell>
-			<tui-list-cell :lineLeft="false" @click="toRecords('/pages/withdraw/withdraw')" :padding="'39rpx 26rpx 39rpx 26rpx'" :unlined="true" :arrow="true">
+			<tui-list-cell :lineLeft="false" @click="toRecords('/packageA/pages/withdraw/withdraw')" :padding="'39rpx 26rpx 39rpx 26rpx'" :unlined="true" :arrow="true">
 				<view class="tui-item-box">
 					<image class="tui-msg-icon" src="/static/wallet-icon/提现.png"></image>
 					<view class="tui-msg-name">提现</view>
@@ -20,7 +20,7 @@
 		</tui-list-view>
 		<view class="i_space">
 			<tui-list-view unlined="all">
-				<tui-list-cell :lineLeft="false" @click="toRecords('/pages/incomeBreakdown/incomeBreakdown')" :padding="'39rpx 26rpx 39rpx 26rpx'" :unlined="true" :arrow="true">
+				<tui-list-cell :lineLeft="false" @click="toRecords('/packageA/pages/incomeBreakdown/incomeBreakdown')" :padding="'39rpx 26rpx 39rpx 26rpx'" :unlined="true" :arrow="true">
 					<view class="tui-item-box">
 						<image class="tui-msg-icon" src="/static/wallet-icon/收支明细.png"></image>
 						<view class="tui-msg-name">明细</view>

@@ -41,6 +41,15 @@
 		methods: {
 			//充值
 			rechargeMoney(){
+				let m = Number(this.money)
+				if (m <= 0 || m > 10000){
+					uni.showModal({
+						title: '提示',
+						content: '请输入0~10000金额',
+						duration: 2000
+					})
+					return false
+				}
 				this.loading = true;
 				recharge({money:Number(this.money)},'post').then(res=>{
 					console.log(res);
@@ -54,6 +63,7 @@
 						success (res) {
 							console.log(res);
 							this.loading = false
+							uni.navigateBack({delta:1})
 						},
 						fail (res) {
 							console.log(res);
@@ -100,7 +110,7 @@
 			align-items: center;
 		}
 		.w_c_flag{
-			font-size:48rpx;
+			font-size:42rpx;
 			font-weight:bold;
 			color:rgba(48,48,48,1);
 			margin-right: 25rpx;

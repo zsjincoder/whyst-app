@@ -16,6 +16,9 @@ export default {
         setUserInfo: (state, data) => {
             state.userInfo = data
         },
+        setUserInfoPhone: (state, data) => {
+            state.userInfo.phone = data
+        },
         setToken: (state, data) => {
             state.token = data
         },

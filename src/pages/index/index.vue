@@ -24,7 +24,7 @@
                               :size="50"
                               unit="rpx"
                               color="#fff"
-                              @click="toRecords('/pages/personal_center/personalCenter')"></tui-icon>
+                              @click="toRecords('/packageC/pages/personal_center/personalCenter')"></tui-icon>
                 </view>
             </view>
             <view class="my-income">
@@ -33,7 +33,7 @@
                     <view class="my-income-number">{{integral}}</view>
                 </view>
                 <text class="income-more"
-                      @click="toRecords('/pages/wallet/wallet')">查看更多>></text>
+                      @click="toRecords('/packageC/pages/wallet/wallet')">查看更多>></text>
             </view>
         </view>
             <view class="c_b_box" :style="{top: (470 + top) +'rpx'}">

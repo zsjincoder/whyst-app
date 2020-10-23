@@ -48,7 +48,7 @@
             },
 			toPage(item){
                     uni.navigateTo({
-					url:'/pages/questionDetails/questionDetails?item='+ encodeURIComponent(JSON.stringify(item))
+					url:'/packageB/pages/questionDetails/questionDetails?item='+ encodeURIComponent(JSON.stringify(item))
 				})
 			}
 		}

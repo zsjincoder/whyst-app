@@ -1,10 +1,9 @@
 <script>
-import {getUserInfo} from "@/libs/utils";
-import Vue from "@dcloudio/vue-cli-plugin-uni/packages/h5-vue";
+    import {getAuthorization} from "@/libs/utils";
 
 export default {
     onLaunch: function () {
-        getUserInfo()
+        getAuthorization()
         console.log('App Launch')
     },
     onShow: function () {

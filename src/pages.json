@@ -11,6 +11,12 @@
 			}
 		},
 		{
+			"path": "pages/authorization/Authorization",
+			"style": {
+				"navigationBarTitleText": "微信授权"
+			}
+		},
+		{
             "path" : "pages/mall-over/mall-over",
             "style" : {"navigationBarTitleText": "商城"}
         },
