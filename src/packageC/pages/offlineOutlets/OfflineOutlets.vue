@@ -13,22 +13,27 @@
              @markertap="markerTap"
              @callouttap="markerTap">
         </map>
-        <view class="shop-info">
+        <view class="shop-info" v-if="mapConfig.covers.length > 0">
+            <image :src="shopInfo.logo"></image>
             <view class="name">
-                <text>{{ shopInfo.name }}</text>
+                <text>{{ shopInfo.name || ''}}</text>
             </view>
             <view class="phone">
-                <text>联系电话：<text>{{shopInfo.phone}}</text></text>
+                <text>联系电话：<text>{{shopInfo.contactNumber || ''}}</text></text>
             </view>
             <view class="address">
-                地址：{{shopInfo.address}}
+                地址：{{shopInfo.address || ''}}
             </view>
+        </view>
+        <view class="shop-info" v-else>
+            暂无数据
         </view>
     </view>
 </template>
 
 <script>
 import TInput from "@/components/t-input/TInput";
+import {getStore} from "@/api";
 export default {
     name: "OfflineOutlets",
     components: {TInput},
@@ -40,41 +45,52 @@ export default {
                 //106.517488,29.544261
                 id: 0, // 使用 marker点击事件 需要填写id
                 title: 'map',
+                "enable-3D": true,
                 latitude: 29.547702,
                 longitude: 106.516967,
-                covers: [{
-                    id: 1,
-                    latitude: 29.545227,
-                    longitude: 106.513958,
-                    iconPath: '/static/logo.png',
-                    callout: {
-                        content: `恒大都市广场`,
-                        display: 'ALWAYS'
-                    }
-                }, {
-                    id: 2,
-                    latitude: 29.544261,
-                    longitude: 106.517488,
-                    iconPath: '/static/logo.png',
-                    callout: {
-                        content: '恒大都市广场',
-                        display: 'ALWAYS'
-                    }
-                }]
+                covers: []
             },
-            shopInfo: {
-                name: '八戒猪肉店',
-                phone: 13452645658,
-                address: '重庆南岸区南山上头养猪场'
-            }
+            shopInfo: {}
         }
     },
+    onShow(){
+      this.getOutlets()
+    },
     methods: {
+        getOutlets(name = ''){
+            getStore({name},'get').then(res=>{
+                let data = res;
+                data.forEach(item=>{
+                    item.iconPath = item.logo
+                    item.width = 60
+                    item.height = 50
+                    item.iconPath = item.logo
+                    item.callout = {
+                        content: item.name,
+                        display: 'ALWAYS'
+                    }
+                })
+                if (data.length > 0){
+                    let {latitude,longitude,name,contactNumber,address,logo} = data[0]
+                    this.mapConfig.latitude = latitude
+                    this.mapConfig.longitude = longitude
+                    this.shopInfo ={name, contactNumber, address, logo}
+                }
+                this.mapConfig.covers = data
+            })
+        },
         searchTextChange(txt){
-            console.log(txt);
+            this.getOutlets(txt)
         },
         markerTap(e){
-            console.log(e);
+            let id = e.detail.markerId
+            let item = this.mapConfig.covers.find(item => item.id === id)
+            if (item !== undefined){
+                let {latitude,longitude,name,contactNumber,address,logo} = item
+                this.mapConfig.latitude = latitude
+                this.mapConfig.longitude = longitude
+                this.shopInfo ={name, contactNumber, address, logo}
+            }
         }
     }
 }
@@ -118,22 +134,23 @@ export default {
         flex-direction: column;
         box-sizing: border-box;
         width: 100%;
-        height: 350rpx;
+        height: 450rpx;
         justify-content: center;
         align-items: center;
         background: #FFFFFF;
         padding: 10rpx 20rpx;
-        font-size: 36rpx;
+        font-size: 28rpx;
         color: #999;
 
-        .name {
-           
+        image {
+            width: 500rpx;
+            height: 350rpx;
         }
 
         .phone {
             margin-top: 20rpx;
         }
-        
+
         .address {
             display: flex;
             margin-top: 20rpx;

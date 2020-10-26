@@ -1,5 +1,6 @@
 import {getInfo, login} from "@/api";
 import store from "@/store"
+import config from "@/config";
 
 /**
  * 判断用户是否授权用户信息
@@ -45,10 +46,17 @@ export const getUserInfo = () =>{
                             console.log(res);
                             store.commit("setIsLogin",true)
                             store.commit("setUserInfo",{...res,token})
-                            console.log(store.state,"store");
-                            uni.switchTab({
-                                url:'/pages/index/index'
-                            })
+                            let tabUrl = ['/pages/index/index','/pages/mall-over/mall-over','/pages/about_platform/AboutPlatform']
+                            if (tabUrl.includes(config.homePage)){
+                                uni.switchTab({
+                                    url: config.homePage
+                                })
+                            }else {
+                                uni.navigateTo({
+                                    url: config.homePage
+                                })
+                            }
+
                         })
 
                     })
@@ -84,7 +92,7 @@ export const judgeIsLogin = () =>{
  * @param method
  * @param headers
  */
-export const handleRestful = (sendURL, data, method, headers = {}) => {
+export const handleRestful = (sendURL, data, method = 'get', headers = {}) => {
     let url = ''
     if (method === 'delete') {
         url += `${sendURL}/${data}`
@@ -109,7 +117,14 @@ export const handleRestful = (sendURL, data, method, headers = {}) => {
  */
 export const needToLoadMore = (saveList, pageData, list) => {
     let result =  pageData.page <= Math.ceil(pageData.total/pageData.limit)
-    result ? saveList.push(...list) : pageData.page--
+    console.log(result);
+    if (result) {
+        saveList.push(...list)
+        return  "loadmore"
+    } else {
+        pageData.page > 1 && pageData.page--;
+        return  "nomore"
+    }
 }
 
 /**
@@ -135,4 +150,17 @@ export const getUserInfoForStorage = (key) =>{
     }else {
         return userInfo[key]
     }
+}
+
+/**
+ * 合并多个对象
+ * @param obj1
+ * @param obj2
+ * @return {{}}
+ * @constructor
+ */
+export const CombineMultipleObjects = (obj1,obj2) =>{
+    let resObj = {}
+    Object.assign(resObj, obj1, obj2)
+    return resObj
 }

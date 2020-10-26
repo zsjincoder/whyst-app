@@ -56,9 +56,10 @@ instance.interceptors.response.use(function (response) {
             }
         });
     } else {
-        uni.showModal({
-            title:'服务器内部错误',
-            content: `,错误信息：${data.message || '无'},错误码：${status || '无'}`
+        uni.showToast({
+            title:`错误信息：${data.message || '无'}，错误码：${status || '无'}`,
+            duration: 2000,
+            icon:'none'
         })
         return Promise.reject(data)
     }

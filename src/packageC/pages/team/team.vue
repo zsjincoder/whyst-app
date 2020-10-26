@@ -1,7 +1,7 @@
 <template>
     <view class="box">
         <!-- 会员 -->
-        <view class="member">您是：尊敬的<text class="name">铂金会员</text></view>
+        <view class="member">您是：尊敬的<text class="name">{{userInfo.levelName || ''}}</text></view>
         <!-- tab栏 -->
         <tui-sticky :scrollTop="scrollTop" stickyHeight="104rpx" container>
             <template v-slot:header>
@@ -18,16 +18,16 @@
                 <view class="listener-list">
                     <view class="l-item page_space" v-for="(item,index) in indexInfo" :key="index" @click="toUserDetail()">
                         <view class="l-i-img">
-                            <image :src="item.url"></image>
+                            <image :src="item.headimgUrl || ''"></image>
                         </view>
                         <view class="l-i-content">
                             <view class="layout">
-                                <text class="l-i-name">昵称：{{ item.name }}</text>
+                                <text class="l-i-name">昵称：{{ item.nickname }}</text>
                             </view>
-                            <view class="l-i-name2">性别：{{item.sex}}</view>
+                            <view class="l-i-name2">性别：{{item.sex === 1 ? '男' : '女'}}</view>
                             <view class="l-i-name2 omit">简介：地方的房价第三方地方的房价第三方地方的房价第三方地方的房价第三方</view>
                             <view class="l-i-text omit">
-                                加入日期：{{ item.date }}
+                                加入日期：{{ item.createTime }}
                             </view>
                         </view>
                     </view>
@@ -40,6 +40,9 @@
 
 <script>
 import LoadMore from "@/components/load_more/LoadMore";
+import {subordinate} from "@/api";
+import {CombineMultipleObjects} from "@/libs/utils";
+import {mapGetters} from "vuex";
 export default {
     name: "team",
     components: {LoadMore},
@@ -49,74 +52,57 @@ export default {
             scrollTop:0,
             tabList: [
                 {
-                    id: 1,
+                    id: 0,
                     name: "直接邀请",
                     number: 10
                 },
                 {
-                    id: 2,
+                    id: 1,
                     name: "我的团队",
                     number: 5
                 }
             ],
-            selectedId: 1,
-            indexInfo: [
-                {
-                    url: "/static/logo.png",
-                    id: 1,
-                    name: "正杀鸡",
-                    date: "2020-8-29",
-                    sex: "男",
-                },
-                {
-                    url: "/static/logo.png",
-                    id: 2,
-                    name: "xz",
-                    date: "2020-8-29",
-                    sex: "女",
-                },
-                {
-                    url: "/static/logo.png",
-                    id: 3,
-                    name: "xz",
-                    date: "2020-8-29",
-                    sex: "女",
-                },
-                {
-                    url: "/static/logo.png",
-                    id: 2,
-                    name: "xz",
-                    date: "2020-8-29",
-                    sex: "女",
-                },
-                {
-                    url: "/static/logo.png",
-                    id: 2,
-                    name: "xz",
-                    date: "2020-8-29",
-                    sex: "女",
-                },
-                {
-                    url: "/static/logo.png",
-                    id: 2,
-                    name: "xz",
-                    date: "2020-8-29",
-                    sex: "女",
-                }
-            ]
+            selectedId: 0,
+            indexInfo: [],
+            pageData: {
+                page: 1,
+                limit: 10,
+                total: 0
+            },
         }
+    },
+    computed:{
+        ...mapGetters({
+            userInfo:'getUserInfo'
+        })
     },
     //页面滚动执行方式
     onPageScroll(e) {
         this.scrollTop = e.scrollTop
     },
-
+    onShow(){
+        this.getSubordinate()
+    },
     onReachBottom() {
-        console.log(123);
+        this.pageData.page ++
+        this.getSubordinate()
     },
     methods: {
         changeTab(e) {
             this.selectedId = e.id;
+            this.indexInfo = []
+            this.pageData.page = 1
+            this.getSubordinate()
+        },
+        getSubordinate(){
+            this.loadding = "loading"
+            subordinate(CombineMultipleObjects({isAll:this.selectedId},this.pageData),'get').then(res=>{
+                let {list, subordinateTotal, teamTotal} = res;
+                this.$set(this.tabList[0],'number',subordinateTotal)
+                this.$set(this.tabList[1],'number',teamTotal)
+                this.pageData.total = this.tabList[this.selectedId].number;
+                this.loading = this.needToLoadMore(this.indexInfo,this.pageData, list)
+            })
         }
     }
 }

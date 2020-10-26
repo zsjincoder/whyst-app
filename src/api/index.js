@@ -73,3 +73,51 @@ export const Integral = (data, method) => {
 export const recharge = (data, method) => {
     return axios.request(handleRestful(`/member/integral/recharge`, data, method))
 }
+
+/**
+ * 用户积分提现
+ * @return {AxiosPromise}
+ */
+export const withdrawMoney = (data, method) => {
+    return axios.request(handleRestful(`/member/withdraw`, data, method))
+}
+
+/**
+ * 用户手机号码解密
+ * @return {AxiosPromise}
+ */
+export const decrypt = (data, method) => {
+    return axios.request(handleRestful(`/member/info/decrypt`, data, method))
+}
+
+/**
+ * 短信验证码
+ * @return {AxiosPromise}
+ */
+export const sendShortMessage = (data, method) => {
+    return axios.request(handleRestful(`/index/short_message/send`, data, method))
+}
+
+/**
+ * 收支记录
+ * @return {AxiosPromise}
+ */
+export const incomeExpenditure = (data, method) => {
+    return axios.request(handleRestful(`/member/integral/income_expenditure`, data, method))
+}
+
+/**
+ * 下级会员列表
+ * @return {AxiosPromise}
+ */
+export const subordinate = (data, method) => {
+    return axios.request(handleRestful(`/member/team/subordinate`, data, method))
+}
+
+/**
+ * 门店信息
+ * @return {AxiosPromise}
+ */
+export const getStore = (data, method) => {
+    return axios.request(handleRestful(`/member/store`, data, method))
+}

@@ -86,7 +86,7 @@ export default {
             src: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2800645550,2486998227&fm=26&gp=0.jpg',
             userName: "张三",
             operate: [
-                {name: '我的团队', img: "/static/index-icon/team.png", path: '/pages/team/team'},
+                {name: '我的团队', img: "/static/index-icon/team.png", path: '/packageC/pages/team/team'},
                 {name: '我要推广', img: "/static/index-icon/tg.png", path: '/packageB/pages/extension/extension'},
                 {name: '我的订单', img: '/static/index-icon/order.png', path: '/packageA/pages/myOrder/myOrder'},
                 {name: '购物商城', img: '/static/index-icon/mall.png', path: '/pages/mall-over/mall-over'},

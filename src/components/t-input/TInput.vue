@@ -10,8 +10,7 @@
                        :placeholder="placeholder"
                        :value="inputVal"
                        :focus="inputShowed"
-                       @confirm="bindInput"
-                       @input="inputTyping"/>
+                       @confirm="bindInput"/>
                 <view v-if="inputVal"
                       class="icon-clear"
                       @tap="clearInput">
@@ -75,6 +74,7 @@ export default {
         hideInput() {
             this.inputVal = "";
             this.inputShowed = false;
+            this.$emit('searchTextChange', '')
             uni.hideKeyboard(); //强行隐藏键盘
         },
     }

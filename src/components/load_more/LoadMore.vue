@@ -15,6 +15,7 @@
 export default {
     name: "LoadMore",
     props:{
+        //loadmore	loading / nomore
         loading:{
             type:String,
             required: true

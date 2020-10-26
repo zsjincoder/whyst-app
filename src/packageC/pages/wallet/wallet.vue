@@ -7,13 +7,13 @@
 		<tui-list-view unlined="all">
 			<tui-list-cell :lineLeft="false" @click="toRecords('/packageA/pages/recharge/recharge')" :padding="'39rpx 26rpx 39rpx 26rpx'" :arrow="true">
 				<view class="tui-item-box">
-					<image class="tui-msg-icon" src="/static/wallet-icon/充值.png"></image>
+					<image class="tui-msg-icon" src="/static/wallet-icon/cz.png"></image>
 					<view class="tui-msg-name">充值</view>
 				</view>
 			</tui-list-cell>
 			<tui-list-cell :lineLeft="false" @click="toRecords('/packageA/pages/withdraw/withdraw')" :padding="'39rpx 26rpx 39rpx 26rpx'" :unlined="true" :arrow="true">
 				<view class="tui-item-box">
-					<image class="tui-msg-icon" src="/static/wallet-icon/提现.png"></image>
+					<image class="tui-msg-icon" src="/static/wallet-icon/tx.png"></image>
 					<view class="tui-msg-name">提现</view>
 				</view>
 			</tui-list-cell>
@@ -22,7 +22,7 @@
 			<tui-list-view unlined="all">
 				<tui-list-cell :lineLeft="false" @click="toRecords('/packageA/pages/incomeBreakdown/incomeBreakdown')" :padding="'39rpx 26rpx 39rpx 26rpx'" :unlined="true" :arrow="true">
 					<view class="tui-item-box">
-						<image class="tui-msg-icon" src="/static/wallet-icon/收支明细.png"></image>
+						<image class="tui-msg-icon" src="/static/wallet-icon/sz.png"></image>
 						<view class="tui-msg-name">明细</view>
 					</view>
 				</tui-list-cell>

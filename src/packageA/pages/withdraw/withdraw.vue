@@ -23,33 +23,46 @@
 		</view>
 		<!-- 提交按钮 -->
 		<view class="r_send">
-      		<view class="r_s_button" :style="{background:money == 0?'#8198dd':'#334dcd'}" @click="withdraw">提现</view>
+      		<view class="r_s_button" :style="{background:money == 0?'#8198dd':'#334dcd'}" @click="withdraw">申请提现</view>
 		</view>
 		<tui-modal :show="show" @cancel="show = false" :custom="true">
 			<view class="phone">
 				<image src="/static/fail.png" class="tui-tips-img"></image>
 				<view class="title">请允许获取手机号</view>
-				<button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">获取手机号码</button>
+				<button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">获取手机号码权限</button>
+			</view>
+		</tui-modal>
+		<tui-modal :show="show1" @cancel="show1 = false" :custom="true" fadeIn >
+			<view class="tui-modal-custom">
+				<view class="tui-prompt-title">验证码</view>
+				<input  placeholder="请输入验证码" class="tui-modal-input" :class="{'tui-hidden-input':!show1}"  v-model="shortCode" />
+				<tui-button height="72rpx" :size="28" shape="circle" @click="shortOk">立即提交</tui-button>
 			</view>
 		</tui-modal>
 	</view>
 </template>
 
 <script>
-	import {Integral} from "@/api";
+	import {decrypt, Integral, sendShortMessage, withdrawMoney} from "@/api";
 	import {mapGetters} from "vuex";
+	import TuiButton from "@/components/thorui/tui-button/tui-button";
 
 	export default {
+		components: {TuiButton},
 		data() {
 			return {
+				//按钮
+				button:[{text: "取消",type: "red",plain: true}, {text: "确定",type: "red",plain: false}],
 				show:false,
+				show1:false,
 				money: 0,
-				integral: 200,
+				integral: 0,
+				shortCode: ''
 			}
 		},
 		onShow(){
 			Integral({},'get').then(res=>{
-				// this.integral = res.integral;
+				this.integral = res.integral;
 			})
 		},
 		computed:{
@@ -59,16 +72,28 @@
 		},
 		methods: {
 			//获取手机号码
-			getPhoneNumber(res){
-				console.log(res);
+			getPhoneNumber(e){
+				console.log(e);
 				this.show = false
-				let encrypdata = e.detail.encryptedData
-				let ivdata = e.detail.iv
-				this.$store.commit('setUserInfoPhone',1345264568)
+				let encryptedData = e.detail.encryptedData
+				let iv = e.detail.iv
+				decrypt({encryptedData, iv},'post').then(res=>{
+					this.$store.commit('setUserInfoPhone', res.phoneNumber)
+					this.withdraw()
+				})
 			},
-			//发送验证码
-			SendCode(){
-
+			//提交提现申请
+			shortOk(){
+				withdrawMoney({money:this.money, smsCode: this.shortCode},'post')
+						.then(res=>{
+							uni.showToast({
+								title: '提现成功',
+								duration: 2000
+							})
+							setTimeout(()=>{
+								uni.navigateBack({delta:1})
+							},2000)
+						})
 			},
 			deleteAll(){
 				this.money = 0;
@@ -76,7 +101,15 @@
 			//体现
 			withdraw(){
 				let m = Number(this.money)
-				if (m <= 0 || m > this.integral){
+				if (m === 0){
+					uni.showToast({
+						title: '您没有积分可以提现',
+						icon: 'none',
+						duration: 2000
+					})
+					return false
+				}
+				if (m < 0 || m > this.integral){
 					uni.showModal({
 						title: '提示',
 						content: `请输入0~${this.integral}金额`
@@ -87,11 +120,11 @@
 					uni.showModal({
 						title: '提示',
 						content: `提现需向${this.userInfo.phone}发送短信验证码！`,
-						success: function (res) {
-							if (res.confirm) {
-								console.log('用户点击确定');
-							} else if (res.cancel) {
-								console.log('用户点击取消');
+						success: (res) => {
+							if(res.confirm){
+								sendShortMessage({phone: this.userInfo.phone},'get').then(data=>{
+									this.show1 = true
+								})
 							}
 						}
 					})
@@ -205,5 +238,62 @@
 			color: #ffffff;
 			font-size: 28rpx;
 		}
+	}
+
+	.short {
+		width: 100%;
+		height: 120rpx;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+
+		input {
+			width: 45%;
+		}
+
+		.short-ok {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100rpx;
+			height: 50rpx;
+			background: #3483CC;
+			color: #ffffff;
+			font-size: 26rpx;
+			border-radius: 10rpx;
+		}
+	}
+
+	.tui-modal-custom {
+		text-align: center;
+	}
+
+	.tui-tips-img {
+		width: 80rpx;
+		height: 80rpx;
+		margin-top: 20rpx;
+	}
+
+	.tui-modal-custom-text {
+		font-size: 30rpx;
+		color: #333;
+		padding: 30rpx 0 50rpx;
+	}
+
+	.tui-prompt-title {
+		padding-bottom: 20rpx;
+		font-size: 34rpx;
+	}
+	.tui-modal-input {
+		width: 80%;
+		border-bottom: 1rpx solid #e6e6e6;
+		margin: 30rpx auto 50rpx;
+		padding-bottom: 20rpx;
+		font-size: 32rpx;
+	}
+	.tui-hidden-input{
+		/* #ifdef MP-WEIXIN */
+		width: 0;
+		/* #endif */
 	}
 </style>
