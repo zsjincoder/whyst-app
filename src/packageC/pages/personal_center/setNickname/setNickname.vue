@@ -2,19 +2,25 @@
 	<view style="width: 100%;display: inline-block;">
 		<!-- 输入框 -->
 		<view class="s_n_flex s_n_box">
-			<input class="s_input" :maxlength="6" v-model.lazy.trim="name" placeholder="请输入真实姓名"/>
+			<input class="s_input" :maxlength="20" v-model.lazy.trim="name" placeholder="请输入真实姓名"/>
 			<view class="s_n_flex">
-				<view class="s_n_number">{{nameLength}}/6</view>
+				<view class="s_n_number">{{nameLength}}/20</view>
 				<tui-icon @click="deleteAll" v-if="nameLength !== 0" :name="'close-fill'" :size="32" :unit="'rpx'" :color="'#A9A9A9'"></tui-icon>
 			</view>
 		</view>
 		<view class="r_send">
-			<view class="r_s_button" :style="{background:nameLength == 0?'#8198dd':'#334dcd'}">完成</view>
+			<view class="r_s_button"
+				  :style="{background:nameLength === 0?'#8198dd':'#334dcd'}"
+				  @click="setName">
+				完成
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {editInfo} from "@/api";
+
 	export default {
 		data() {
 			return {
@@ -29,6 +35,18 @@
 		methods: {
 			deleteAll() {
 				this.name = "";
+			},
+			setName(){
+				editInfo({realName:this.name},'put').then(res=>{
+					this.$store.commit('setUserInfoName', this.name)
+					uni.showToast({
+						title:'设置成功',
+						duration:2000
+					})
+					setTimeout(()=>{
+						uni.navigateBack({delta:1})
+					},2000)
+				})
 			}
 		}
 	}

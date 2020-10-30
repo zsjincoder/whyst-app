@@ -2,7 +2,13 @@
     import {getAuthorization} from "@/libs/utils";
 
 export default {
-    onLaunch: function () {
+    onLaunch: function (query) {
+        console.log(query);
+        const scene = decodeURIComponent(query.scene)
+        if (scene == 1011){
+            console.log("scene",scene);
+        }
+
         getAuthorization()
         console.log('App Launch')
     },
@@ -11,11 +17,6 @@ export default {
     },
     onHide: function () {
         console.log('App Hide')
-    },
-    mounted() {
-        //vConsole
-        // const vConsole = require('vconsole')
-        // let vc = new vConsole()
     }
 }
 </script>

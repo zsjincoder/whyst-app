@@ -36,7 +36,7 @@ export const getUserInfo = () =>{
                 success: (infoRes)=> {
                     console.log(infoRes)
                     let {iv , encryptedData} = infoRes
-                    // console.log('用户昵称为：' + infoRes.userInfo.nickName);
+                    console.log('用户：' + infoRes);
                     let params = {code, iv, encryptedData}
                     login(params,'post').then(res=>{
                         // console.log(res);

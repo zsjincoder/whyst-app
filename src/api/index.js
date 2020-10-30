@@ -121,3 +121,43 @@ export const subordinate = (data, method) => {
 export const getStore = (data, method) => {
     return axios.request(handleRestful(`/member/store`, data, method))
 }
+
+/**
+ * 排行榜
+ * @return {AxiosPromise}
+ */
+export const leaderboard = (timeUnit, data={}, method='get') => {
+    return axios.request(handleRestful(`/member/integral/${timeUnit}/leaderboard`, data, method))
+}
+
+/**
+ * 修改用户信息
+ * @return {AxiosPromise}
+ */
+export const editInfo = (data, method) => {
+    return axios.request(handleRestful(`/member/info`, data, method))
+}
+
+/**
+ * 新增/修改提现设置
+ * @return {AxiosPromise}
+ */
+export const paramsSet = (data, method) => {
+    return axios.request(handleRestful(`/member/withdraw/params/set`, data, method))
+}
+
+/**
+ * 文件上传
+ * @return {AxiosPromise}
+ */
+export const updateFile = (data, method) => {
+    return axios.request(handleRestful(`/index/file`, data, method))
+}
+
+/**
+ * 获取推广码
+ * @return {AxiosPromise}
+ */
+export const unLimit = (data, method) => {
+    return axios.request(handleRestful(`/member/mini_program/unlimit`, data, method))
+}

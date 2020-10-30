@@ -18,8 +18,14 @@
             <view class="name">
                 <text>{{ shopInfo.name || ''}}</text>
             </view>
-            <view class="phone">
-                <text>联系电话：<text>{{shopInfo.contactNumber || ''}}</text></text>
+            <view class="phone"  @click="call(shopInfo.contactNumber)">
+                <text>
+                    联系电话：
+                    <text
+                        style="color: #00aaff">
+                        {{shopInfo.contactNumber || ''}}
+                    </text>
+                </text>
             </view>
             <view class="address">
                 地址：{{shopInfo.address || ''}}
@@ -53,7 +59,7 @@ export default {
             shopInfo: {}
         }
     },
-    onShow(){
+    onLoad(){
       this.getOutlets()
     },
     methods: {
@@ -91,7 +97,16 @@ export default {
                 this.mapConfig.longitude = longitude
                 this.shopInfo ={name, contactNumber, address, logo}
             }
-        }
+        },
+        //打电话
+        call(phone){
+            console.log(phone);
+            if (phone){
+                uni.makePhoneCall({
+                    phoneNumber: phone
+                });
+            }
+        },
     }
 }
 </script>

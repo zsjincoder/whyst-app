@@ -24,6 +24,9 @@ const instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use( async (config)=> {
     // 在发送请求之前做些什么
+    uni.showLoading({
+        title: '加载中'
+    });
     if (whiteList.includes(config.url)){
         config.headers.token = store.state.user.token || '';
         return config
@@ -39,6 +42,7 @@ instance.interceptors.request.use( async (config)=> {
 
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
+    uni.hideLoading()
     // 请求成功后做些什么
     const { data, status } = response
     if (data.code === 0) {

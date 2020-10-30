@@ -19,6 +19,12 @@ export default {
         setUserInfoPhone: (state, data) => {
             state.userInfo.phone = data
         },
+        setUserInfoName: (state, data) => {
+            state.userInfo.realName = data
+        },
+        setUserInfoWithdrawQrCode: (state, data) => {
+            state.userInfo.withdrawQrCode = data
+        },
         setToken: (state, data) => {
             state.token = data
         },

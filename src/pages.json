@@ -177,12 +177,6 @@
 					}
 				},
 				{
-					"path" : "pages/personal_center/setPhone/setPhone",
-					"style" : {
-						"navigationBarTitleText": "设置手机号码"
-					}
-				},
-				{
 					"path" : "pages/personal_center/collectionCode/collectionCode",
 					"style" : {"navigationBarTitleText": "收款码"}
 				}

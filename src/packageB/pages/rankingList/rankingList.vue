@@ -1,45 +1,63 @@
 <template>
 	<view class="rank-list">
-		<image class="rank-img" src="../../static/phb.png"></image>
-		<tui-tabs :tabs="navbar" :currentTab="currentTab>1?0:currentTab" @change="change" itemWidth="50%"></tui-tabs>
+		<image class="rank-img" src="/static/phb.png"></image>
+		<tui-tabs :tabs="navBar" :currentTab="currentTab>1?0:currentTab" @change="change" itemWidth="50%"></tui-tabs>
 		<view class="user-list">
-			<view class="user-item" v-for="i in 15" :key="i">
+			<view class="user-item" v-for="(item,i) in rankList" :key="i">
 				<view class="info">
-					<image v-if="i === 1" src="/static/rank/jinjiang.png" class="user-rank" mode="widthFix"></image>
-					<image v-else-if="i === 2" src="/static/rank/yinjiang.png" class="user-rank" mode="widthFix"></image>
-					<image v-else-if="i === 3" src="/static/rank/tongjiang.png" class="user-rank" mode="widthFix"></image>
+					<image v-if="i === 0" src="/static/rank/jinjiang.png" class="user-rank" mode="widthFix"></image>
+					<image v-else-if="i === 1" src="/static/rank/yinjiang.png" class="user-rank" mode="widthFix"></image>
+					<image v-else-if="i === 2" src="/static/rank/tongjiang.png" class="user-rank" mode="widthFix"></image>
 					<i v-else class="rank">{{i}}</i>
-					<image src="/static/logo.png" class="user-img" mode="widthFix"></image>
-					<view class="name">大威天龙</view>
+					<image :src="item.headimgUrl" class="user-img" mode="aspectFill"></image>
+					<view class="name">{{item.nickname}}</view>
 				</view>
 				<view class="money">
 					<view class="money-body">
 						<tui-icon name="coupon" color="#ff8800" :size="30" unit="rpx" @tap="search = ''"></tui-icon>
-						<text>10000000</text>
+						<text>{{item.income}}</text>
 					</view>
 				</view>
 			</view>
 			<!-- <tui-loadmore :index="3" type="orange"></tui-loadmore> -->
-			<tui-nomore :backgroundColor="'#fff'"></tui-nomore>
+			<!-- <load-more :loading="loading"></load-more> -->
 		</view>
 	</view>
 </template>
 
 <script>
+	import LoadMore from "@/components/load_more/LoadMore";
+	import {leaderboard} from "@/api";
 	export default {
+		components: {LoadMore},
 		data() {
 			return {
-				navbar: [{
-					name: "周榜"
+				loading:"loadmore",
+				navBar: [{
+					name: "周榜",
+					value:'week'
 				}, {
-					name: "月榜"
+					name: "月榜",
+					value:'month'
 				}],
-				currentTab:0
+				currentTab:0,
+				rankList:[]
 			};
 		},
+		onShow(){
+			this.getRank()
+		},
 		methods:{
+			//排行榜
+			getRank(){
+				leaderboard(this.navBar[this.currentTab].value).then(res=>{
+					this.rankList = res;
+				})
+			},
 			change(e) {
 				this.currentTab = e.index
+				this.rankList = []
+				this.getRank()
 			},
 		}
 	}
@@ -47,7 +65,7 @@
 
 <style lang="less">
 	page {
-		background-color: #FFFFFF;
+		background-color: #F6F6F6;
 	}
 
 	.rank-list {
@@ -59,7 +77,7 @@
 		}
 		.user-list {
 			width: 750rpx;
-			
+
 			.user-item {
 				display: flex;
 				box-sizing: border-box;
@@ -68,20 +86,20 @@
 				height: 130rpx;
 				border-bottom: 1px #CCCCCC solid;
 				background-color: #FFFFFF;
-				
+
 				.info {
 					display: flex;
 					align-items: center;
 					width: 70%;
 					height: 100%;
-					
+
 					.user-rank {
 						width: 50rpx;
 						height: 50rpx;
 						border-radius: 50%;
 						margin-right: 20rpx;
 					}
-					
+
 					.rank {
 						width: 70rpx;
 						text-align: center;
@@ -89,26 +107,25 @@
 						color: #666666;
 						font-weight: bold;
 					}
-					
+
 					.user-img {
 						width: 80rpx;
 						height: 80rpx;
 						border-radius: 50%;
 					}
-					
+
 					.name{
 						margin-left: 15rpx;
 						color: #6b6b6b;
 					}
 				}
-				
+
 				.money {
 					display: flex;
 					align-items: center;
 					justify-content: flex-end;
-					width: 30%;
 					height: 100%;
-					
+
 					.money-body {
 						display: flex;
 						min-width: 160rpx;

@@ -25,7 +25,7 @@
                                 <text class="l-i-name">昵称：{{ item.nickname }}</text>
                             </view>
                             <view class="l-i-name2">性别：{{item.sex === 1 ? '男' : '女'}}</view>
-                            <view class="l-i-name2 omit">简介：地方的房价第三方地方的房价第三方地方的房价第三方地方的房价第三方</view>
+                            <view class="l-i-name2 omit">级别：{{userInfo.levelName || ''}}</view>
                             <view class="l-i-text omit">
                                 加入日期：{{ item.createTime }}
                             </view>
