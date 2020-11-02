@@ -161,3 +161,27 @@ export const updateFile = (data, method) => {
 export const unLimit = (data, method) => {
     return axios.request(handleRestful(`/member/mini_program/unlimit`, data, method))
 }
+
+/**
+ * 商品详情
+ * @return {AxiosPromise}
+ */
+export const detail = (data={},goodsId, method) => {
+    return axios.request(handleRestful(`/member/goods/detail/${goodsId}`, data, method))
+}
+
+/**
+ * 商品库存（规格值查询）
+ * @return {AxiosPromise}
+ */
+export const goodsAttrs = (data, method) => {
+    return axios.request(handleRestful(`/member/goods/attrs`, data, method))
+}
+
+/**
+ * 创建订单
+ * @return {AxiosPromise}
+ */
+export const mallOrder = (data, method) => {
+    return axios.request(handleRestful(`/member/order`, data, method))
+}

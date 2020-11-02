@@ -1,31 +1,31 @@
 <template>
     <view>
-        <view class="tui-order-item" v-for="(model,orderIndex) in 3" :key="orderIndex">
+        <view class="tui-order-item" v-for="(model,orderIndex) in list" :key="orderIndex">
             <tui-list-cell :hover="false" :lineLeft="false">
                 <view class="tui-goods-title">
-                    <view>订单号：T201910000</view>
+                    <view>订单号：{{model.outTradeNo.substr(0,8) || ''}}</view>
                     <view class="tui-order-status">失败</view>
                 </view>
             </tui-list-cell>
-            <tui-list-cell padding="0" @click="detail">
+            <tui-list-cell padding="0" @click="detail(model.id)">
                 <view class="tui-goods-item">
-                    <image src="/static/logo.png" class="tui-goods-img"></image>
+                    <image :src="model.goods.image || ''" class="tui-goods-img"></image>
                     <view class="tui-goods-center">
-                        <view class="tui-goods-name">欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）</view>
-                        <view class="tui-goods-attr">黑色，50ml</view>
+                        <view class="tui-goods-name">{{model.goods.goodsName || ''}}</view>
+                        <view class="tui-goods-attr">{{chooseText(model.goods.specificationValue)}}</view>
                     </view>
                     <view class="tui-price-right">
-                        <view>￥298.00</view>
-                        <view>x1</view>
+                        <view>￥{{model.money || 0}}</view>
+                        <view>x{{model.goodsAmount || 0}}</view>
                     </view>
                 </view>
             </tui-list-cell>
             <tui-list-cell :hover="false" unlined>
                 <view class="tui-goods-price">
-                    <view>共4件商品 合计：</view>
+                    <view>共1件商品 合计：</view>
                     <view class="tui-size-24">￥</view>
-                    <view class="tui-price-large">1192</view>
-                    <view class="tui-size-24">.00</view>
+                    <view class="tui-price-large">{{model.money || 0}}</view>
+                    <view class="tui-size-24"></view>
                 </view>
             </tui-list-cell>
         </view>
@@ -35,18 +35,44 @@
 
 <script>
 import LoadMore from "@/components/load_more/LoadMore";
+import {mallOrder} from "@/api";
 export default {
     name: "myOrder",
     components: {LoadMore},
     data(){
         return{
             loading:"loadmore",
+            list: [],
+            pageData: {
+                page: 1,
+                limit: 10,
+                total: 0
+            },
         }
     },
+    onShow(){
+        this.getList()
+    },
+    onReachBottom(){
+        this.pageData.page ++;
+        this.getList();
+        console.log('底部了');
+    },
     methods:{
-        detail(){
+        chooseText(list){
+            return list.map(i => i.value).join(',')
+        },
+        getList(){
+            this.loadding = "loading"
+            mallOrder(this.pageData,'get').then(res =>{
+                let {list , total} = res;
+                this.pageData.total = total;
+                this.loading = this.needToLoadMore(this.list,this.pageData, list)
+            })
+        },
+        detail(id){
             uni.navigateTo({
-                url:'/pages/orderDetail/orderDetail'
+                url:'/packageA/pages/orderDetail/orderDetail?id=' + id
             })
         }
     }

@@ -1,14 +1,14 @@
 <template>
 	<view class="container">
-<!--		<tui-list-cell arrow backgroundColor="#fefefe" @click="logistics">-->
-<!--			<view class="tui-flex-box">-->
-<!--				<image :src="webURL+'img_order_logistics3x.png'" class="tui-icon-img"></image>-->
-<!--				<view class="tui-logistics">-->
-<!--					<view class="tui-logistics-text">快递已到收货点，请注意查收哦! 投递员: echo. 联系电话: 17788849992</view>-->
-<!--					<view class="tui-logistics-time">2019-06-03 12:02</view>-->
-<!--				</view>-->
-<!--			</view>-->
-<!--		</tui-list-cell>-->
+		<tui-list-cell arrow backgroundColor="#fefefe" @click="logistics">
+			<view class="tui-flex-box">
+				<image :src="webURL+'img_order_logistics3x.png'" class="tui-icon-img"></image>
+				<view class="tui-logistics">
+					<view class="tui-logistics-text">快递已到收货点，请注意查收哦! 投递员: echo. 联系电话: 17788849992</view>
+					<view class="tui-logistics-time">2019-06-03 12:02</view>
+				</view>
+			</view>
+		</tui-list-cell>
 		<tui-list-cell unlined :hover="false">
 			<view class="tui-flex-box">
 				<image :src="webURL+'img_order_address3x.png'" class="tui-icon-img"></image>
@@ -80,7 +80,8 @@
 				<view class="tui-order-flex">
 					<view class="tui-item-title">物流单号:</view>
 					<view class="tui-item-content">33655511251265578556</view>
-                    <text style="margin-left: 50rpx;border: 1px solid #F6F6F6;border-radius: 25rpx;padding:0 15rpx">复制</text>
+                    <text style="margin-left: 50rpx;border: 1px solid #F6F6F6;border-radius: 25rpx;padding:0 15rpx"
+							@click="copy('1232')">复制</text>
 				</view>
 				<view class="tui-order-flex">
 					<view class="tui-item-title">创建时间:</view>
@@ -124,6 +125,17 @@
 			}
 		},
 		methods: {
+			//复制
+			copy(data){
+				uni.setClipboardData({
+					data: data,
+					success: function () {
+						uni.showToast({
+							title:'复制成功'
+						})
+					}
+				});
+			},
 			getImg: function(status) {
 				return this.webURL + ["img_order_payment3x.png", "img_order_send3x.png", "img_order_received3x.png",
 					"img_order_signed3x.png", "img_order_closed3x.png"

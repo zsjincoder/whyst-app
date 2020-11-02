@@ -34,7 +34,7 @@
 					})
 				} else {
                     uni.redirectTo({
-                        url: "/pages/myOrder/myOrder"
+                        url: "/packageA/pages/myOrder/myOrder"
                     })
 				}
 			}

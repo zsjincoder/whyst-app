@@ -7,7 +7,7 @@
 						<input v-model="search" class="header-input" confirm-type="search" placeholder-class="header-input-placeholder"
 						 type="text" placeholder="商品名称">
 						<view class="input-handler">
-							<tui-icon v-show="search" name="close" color="#999" :size="30" unit="rpx" @tap="search = ''"></tui-icon>
+							<tui-icon v-show="search" name="close" color="#999" :size="30" unit="rpx" @click="search = ''"></tui-icon>
 							<view>|</view>
 							<tui-icon name="search" color="#999" :size="36" unit="rpx"></tui-icon>
 						</view>
@@ -27,7 +27,7 @@
 					<view class="tui-product-container">
 						<block v-for="(item, index) in productList" :key="index" v-if="(index + 1) % 2 != 0">
 							<!--商品列表-->
-							<view class="tui-pro-item" hover-class="hover" :hover-start-time="150" @tap="detail">
+							<view class="tui-pro-item" hover-class="hover" :hover-start-time="150" @tap="detail(item.id)">
 								<image :src="item.stock[0].image" class="tui-pro-img" mode="widthFix" />
 								<view class="tui-pro-content">
 									<view class="tui-pro-tit">{{ item.name }}</view>
@@ -47,7 +47,7 @@
 					<view class="tui-product-container">
 						<block v-for="(item, index) in productList" :key="index" v-if="(index + 1) % 2 == 0">
 							<!--商品列表-->
-							<view class="tui-pro-item" hover-class="hover" :hover-start-time="150" @tap="detail">
+							<view class="tui-pro-item" hover-class="hover" :hover-start-time="150" @tap="detail(item.id)">
 								<image :src="item.stock[0].image" class="tui-pro-img" mode="widthFix" />
 								<view class="tui-pro-content">
 									<view class="tui-pro-tit">{{ item.name }}</view>
@@ -207,9 +207,9 @@
 					this.needToLoadMore(this.productList,this.pageData, list)
 				})
 			},
-			detail() {
+			detail(id = '') {
 				uni.navigateTo({
-					url: "/pages/productDetail/ProductDetail"
+					url: "/packageA/pages/productDetail/ProductDetail?id=" + id
 				})
 			}
 		}
@@ -257,6 +257,7 @@
 				color: #999;
 				top: 0rpx;
 				right: 50rpx;
+				z-index: 999;
 			}
 
 			.header-input-placeholder {

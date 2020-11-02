@@ -164,3 +164,16 @@ export const CombineMultipleObjects = (obj1,obj2) =>{
     Object.assign(resObj, obj1, obj2)
     return resObj
 }
+
+//查询数组中是否存在
+export const isInArray = (array,array1, value) =>{
+    if (array.indexOf(value) !== -1){
+        if (array1.indexOf(value) !== -1){
+            return 'tui-attr-active'
+        }else {
+            return false
+        }
+    }else {
+        return 'tui-attr-disabled'
+    }
+}

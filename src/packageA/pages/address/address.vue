@@ -2,7 +2,7 @@
 	<view class="tui-safe-area">
 		<view class="tui-address">
 			<block v-for="(item,index) in addressList" :key="index">
-				<tui-list-cell padding="0">
+				<tui-list-cell padding="0" @click="choseAddress(item.id)">
 					<view class="tui-address-flex">
 						<view class="tui-address-left">
 							<view class="tui-address-main">
@@ -33,21 +33,35 @@
 <script>
 	import {shippingAddress} from "@/api";
 	import {formatPhone} from "@/libs/utils";
+	import {mapMutations} from "vuex";
 
 	export default {
 		data() {
 			return {
-				addressList: []
+				addressList: [],
+				isChoose: false
 			}
 		},
 		onLoad: function(options) {
-
+			this.isChoose = options.isChoose === '1'
 		},
 		onShow() {
 			this.getAddress()
 		},
 		methods: {
+			...mapMutations({
+				setAddressId:'setAddressId'
+			}),
+
 			formatPhone:formatPhone,
+			choseAddress(id){
+				if(this.isChoose){
+					this.setAddressId(id)
+					uni.navigateBack({
+						delta:1
+					})
+				}
+			},
 			getAddress(){
 				shippingAddress({},'get').then(res=>{
 					this.addressList = res

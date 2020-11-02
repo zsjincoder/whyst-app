@@ -3,12 +3,13 @@
 		<view class="tui-box">
 			<tui-list-cell :arrow="true" unlined :radius="true" @click="chooseAddr">
 				<view class="tui-address">
-					<view v-if="true">
+					<view v-if="addressId">
 						<view class="tui-userinfo">
-							<text class="tui-name">王大大</text> 139****7708
+							<text class="tui-name">{{defaultAddress.name || ''}}</text>
+							{{formatPhone(defaultAddress.phone|| '') || ''}}
 						</view>
 						<view class="tui-addr">
-							<text>重庆这儿哪儿</text>
+							<text>{{defaultAddress.address || ''}}</text>
 						</view>
 					</view>
 					<view class="tui-none-addr" v-else>
@@ -26,21 +27,21 @@
 				</tui-list-cell>
                 <tui-list-cell :hover="false" padding="0">
                     <view class="tui-goods-item">
-                        <image src="/static/logo.png" class="tui-goods-img"></image>
+                        <image :src="saveGoodsInfo.goodsInfo.image" class="tui-goods-img"></image>
                         <view class="tui-goods-center">
-                            <view class="tui-goods-name">欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）</view>
-                            <view class="tui-goods-attr">黑色，50ml</view>
+                            <view class="tui-goods-name">{{saveGoodsInfo.goodsInfo.goodsName}}</view>
+                            <view class="tui-goods-attr">{{chooseText}}</view>
                         </view>
                         <view class="tui-price-right">
-                            <view>￥298.00</view>
-                            <view>x2</view>
+                            <view>￥{{saveGoodsInfo.goodsInfo.price}}</view>
+                            <view>x{{saveGoodsInfo.value}}</view>
                         </view>
                     </view>
                 </tui-list-cell>
 				<tui-list-cell :hover="false">
 					<view class="tui-padding tui-flex">
 						<view>商品总额</view>
-						<view>￥1192.00</view>
+						<view>￥{{lumpSum}}</view>
 					</view>
 				</tui-list-cell>
 				<tui-list-cell :hover="false" :lineLeft="false" padding="0">
@@ -54,8 +55,8 @@
 						<view class="tui-flex-end tui-color-red">
 							<view class="tui-black">合计： </view>
 							<view class="tui-size-26">￥</view>
-							<view class="tui-price-large">1192</view>
-							<view class="tui-size-26">.00</view>
+							<view class="tui-price-large">{{lumpSum}}</view>
+							<view class="tui-size-26"></view>
 						</view>
 					</view>
 				</tui-list-cell>
@@ -76,8 +77,8 @@
 			<view class="tui-flex-end tui-color-red tui-pr-20">
 				<view class="tui-black">实付金额: </view>
 				<view class="tui-size-26">￥</view>
-				<view class="tui-price-large">1192</view>
-				<view class="tui-size-26">.00</view>
+				<view class="tui-price-large">{{lumpSum}}</view>
+				<view class="tui-size-26"></view>
 			</view>
 			<view class="tui-pr25">
 				<tui-button width="200rpx" height="70rpx" :size="28" type="danger" shape="circle" @click="btnPay">确认支付</tui-button>
@@ -87,24 +88,89 @@
 </template>
 
 <script>
+	import {mapGetters, mapMutations} from "vuex";
+	import {mallOrder, shippingAddress} from "@/api";
+	import {formatPhone} from "@/libs/utils";
+
 	export default {
 		data() {
 			return {
 				hasCoupon: true,
 				insufficient: true,
+				addressList: []
 			}
 		},
+		computed:{
+			...mapGetters({
+				saveGoodsInfo: 'getSaveGoodsInfo',
+				addressId: 'getAddressId'
+			}),
+			defaultAddress(){
+				let address =  {}
+				console.log(this.addressId);
+				if (this.addressId == null){
+					address = this.addressList.find(item => item.isDefault === 1)
+				}else {
+					address = this.addressList.find(item => item.id === this.addressId)
+				}
+				return address !== undefined ? address : {}
+			},
+			chooseText(){
+				return this.saveGoodsInfo.specificationValueChoose.map(i => i.value).join(',')
+			},
+			//总额
+			lumpSum() {
+				return  Number(this.saveGoodsInfo.goodsInfo.price) * this.saveGoodsInfo.value
+			}
+		},
+		onLoad(){
+			this.getAddress()
+		},
 		methods: {
+			...mapMutations({
+				setAddressId:'setAddressId'
+			}),
+			formatPhone:formatPhone,
+			getAddress(){
+				shippingAddress({},'get').then(res=>{
+					this.addressList = res
+					this.addressList.length > 0 && this.setAddressId(this.addressList[0].id)
+				})
+			},
 			chooseAddr() {
 				uni.navigateTo({
-					url: "/pages/address/address"
+					url: "/packageA/pages/address/address?isChoose=" + 1
 				})
 			},
 			btnPay() {
-				this.show = true
-                uni.redirectTo({
-                    url:'/pages/success/success'
-                })
+				uni.redirectTo({
+					url:'/packageA/pages/success/success'
+				})
+				return
+				let param = {
+					skuId: this.saveGoodsInfo.goodsInfo.id,
+					addressId: this.defaultAddress.id,
+					goodsAmount: this.saveGoodsInfo.value
+				}
+				mallOrder(param, 'post').then(res =>{
+					let {nonceStr,signType,paySign} = res;
+					wx.requestPayment({
+						timeStamp:res.timeStamp.toString(),
+						nonceStr,
+						package: res.package,
+						signType,
+						paySign,
+						success (res) {
+							console.log(res);
+							uni.redirectTo({
+								url:'/packageA/pages/success/success'
+							})
+						},
+						fail (res) {
+							console.log(res);
+						}
+					})
+				})
 			},
 		}
 	}
