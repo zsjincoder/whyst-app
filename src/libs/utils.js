@@ -96,7 +96,7 @@ export const handleRestful = (sendURL, data, method = 'get', headers = {}) => {
     let url = ''
     if (method === 'delete') {
         url += `${sendURL}/${data}`
-    } else if (method === 'post' || method === 'put' || 'get') {
+    } else if (method === 'post' || method === 'put' || method === 'get') {
         url = data.hasOwnProperty('id') ? `${sendURL}/${data.id}` : sendURL
     } else {
         url = sendURL
@@ -165,7 +165,13 @@ export const CombineMultipleObjects = (obj1,obj2) =>{
     return resObj
 }
 
-//查询数组中是否存在
+/**
+ * 查询数组中是否存在
+ * @param array
+ * @param array1
+ * @param value
+ * @return {string|boolean}
+ */
 export const isInArray = (array,array1, value) =>{
     if (array.indexOf(value) !== -1){
         if (array1.indexOf(value) !== -1){
@@ -177,3 +183,43 @@ export const isInArray = (array,array1, value) =>{
         return 'tui-attr-disabled'
     }
 }
+
+//根据内容推算快递进度
+export const expressProgress = (string) =>{
+    let keyStr = ['揽收','到达','离开','派件','签收']
+    let index = -1
+    for (let i = 0; i < keyStr.length; i++){
+        let key = string.indexOf(keyStr[i])
+        if (key !== -1) {
+            index = i
+            break
+        }
+    }
+    switch (index) {
+        case 0: return 1
+        case 1: return 2
+        case 2: return 2
+        case 3: return 3
+        case 4: return 4
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

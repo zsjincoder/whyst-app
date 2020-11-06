@@ -27,8 +27,11 @@
                     </text>
                 </text>
             </view>
-            <view class="address">
-                地址：{{shopInfo.address || ''}}
+            <view class="address" @click="goHeir(shopInfo)">
+                地址：<text
+                    style="color: #4d8097">
+                {{shopInfo.address || ''}}
+            </text>
             </view>
         </view>
         <view class="shop-info" v-else>
@@ -107,6 +110,21 @@ export default {
                 });
             }
         },
+        //qu
+        goHeir(info){
+            console.log(this.mapConfig.latitude);
+            console.log(this.mapConfig.longitude);
+            wx.openLocation({
+                latitude: Number(this.mapConfig.latitude),
+                longitude: Number(this.mapConfig.longitude),
+                success: function () {
+                    console.log('success');
+                },
+                fail: function (err) {
+                    console.log(err);
+                }
+            });
+        }
     }
 }
 </script>

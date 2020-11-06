@@ -5,12 +5,15 @@ export default {
         //用户鉴权
         token: '',
         //用户信息
-        userInfo: {}
+        userInfo: {},
+        //扫码进入code
+        sceneCode: null
     },
     getters: {
         getUserInfo: state => state.userInfo,
         getToken: state => state.token,
         getIsLogin: state => state.isLogin,
+        getSceneCode: state => state.sceneCode
     },
     mutations: {
         setUserInfo: (state, data) => {
@@ -30,6 +33,9 @@ export default {
         },
         setIsLogin: (state, data) => {
             state.isLogin = data
+        },
+        setSceneCode: (state, data) => {
+            state.sceneCode = data
         }
     }
 }

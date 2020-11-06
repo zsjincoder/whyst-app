@@ -7,9 +7,9 @@
 						<input v-model="search" class="header-input" confirm-type="search" placeholder-class="header-input-placeholder"
 						 type="text" placeholder="商品名称">
 						<view class="input-handler">
-							<tui-icon v-show="search" name="close" color="#999" :size="30" unit="rpx" @click="search = ''"></tui-icon>
+							<tui-icon v-show="search" name="close" color="#999" :size="30" unit="rpx" @click="search= '';searchList()"></tui-icon>
 							<view>|</view>
-							<tui-icon name="search" color="#999" :size="36" unit="rpx"></tui-icon>
+							<tui-icon name="search" color="#999" :size="36" unit="rpx" @click="searchList"></tui-icon>
 						</view>
 					</view>
 				</view>
@@ -36,7 +36,7 @@
 											<text class="tui-sale-price">￥{{ item.lowPrice }}</text>
 <!--											<text class="tui-factory-price">￥{{ item.lowPrice }}</text>-->
 										</view>
-										<view class="tui-pro-pay">{{ item.numberOfPayments || 0 }}人付款</view>
+										<view class="tui-pro-pay">{{ item.salesStatistics.allSales || 0 }}人付款</view>
 									</view>
 								</view>
 							</view>
@@ -56,7 +56,7 @@
 											<text class="tui-sale-price">￥{{ item.lowPrice || 0}}</text>
 <!--											<text class="tui-factory-price">￥{{ item.lowPrice || 0 }}</text>-->
 										</view>
-										<view class="tui-pro-pay">{{ item.numberOfPayments || 0 }}人付款</view>
+										<view class="tui-pro-pay">{{ item.salesStatistics.allSales || 0 }}人付款</view>
 									</view>
 								</view>
 							</view>
@@ -201,11 +201,18 @@
 		methods: {
 			//获取商品列表
 			getGoodsList(){
-				goods(this.pageData, 'get').then(res=>{
+				let param = {}
+				param = Object.assign(param, this.pageData, {keyWord: this.search})
+				goods(param, 'get').then(res=>{
 					let {list , total} = res;
 					this.pageData.total = total;
 					this.needToLoadMore(this.productList,this.pageData, list)
 				})
+			},
+			searchList() {
+				this.productList = []
+				this.pageData.page = 1
+				this.getGoodsList()
 			},
 			detail(id = '') {
 				uni.navigateTo({

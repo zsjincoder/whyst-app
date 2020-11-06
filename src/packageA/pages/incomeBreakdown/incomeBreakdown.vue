@@ -12,7 +12,7 @@
 				<view class="minxi_money">{{item.integral || ''}}</view>
 			</view>
 		</view>
-        <load-more :loading="loading"></load-more>
+        <load-more v-if="pageData.total > pageData.limit" :loading="loading"></load-more>
 	</view>
 </template>
 

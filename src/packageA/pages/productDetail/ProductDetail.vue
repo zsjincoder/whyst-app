@@ -48,7 +48,7 @@
             <view class="tui-basic-info tui-mtop tui-radius-all">
                 <view class="tui-list-cell" @tap="openPopup">
                     <view class="tui-bold tui-cell-title">已选</view>
-                    <view class="tui-selected-box">{{chooseText}}</view>
+                    <view class="tui-selected-box">{{chooseText || ''}}</view>
                     <view class="tui-ml-auto">
                         <tui-icon name="more-fill" :size="20" color="#666"></tui-icon>
                     </view>
@@ -169,6 +169,7 @@ export default {
           bannerIndex: 0,
           popupShow: false,
           value: 1,
+          vip: 0,
           goodsInfo: {
 
           },
@@ -187,7 +188,7 @@ export default {
             return this.specificationValueChoose.map(item=> item.value)
         },
         chooseText(){
-            return this.goodsInfo.name + ',' + this.specificationValueChooseList.join(',')
+            return (this.goodsInfo.name || '') + ',' + this.specificationValueChooseList.join(',')
         }
     },
     onLoad(option){
@@ -213,6 +214,7 @@ export default {
             });
         }, 0);
         option.hasOwnProperty('id') && this.getGoodsInfo(option.id)
+        option.hasOwnProperty('vip') && (this.vip = option.vip)
     },
     methods:{
         ...mapMutations({
@@ -314,7 +316,7 @@ export default {
             }
             this.setSaveGoodsInfo(goods)
             uni.navigateTo({
-                url:"/packageA/pages/submitOrder/submitOrder"
+                url:"/packageA/pages/submitOrder/submitOrder?vip=" + this.vip
             })
         }
     }

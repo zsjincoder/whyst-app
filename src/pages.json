@@ -91,6 +91,12 @@
 					"style": {
 						"navigationBarTitleText": "订单详情"
 					}
+				},
+				{
+					"path": "pages/timeaxis/timeaxis",
+					"style": {
+						"navigationBarTitleText": "快递查询"
+					}
 				}
 			]
 		},{

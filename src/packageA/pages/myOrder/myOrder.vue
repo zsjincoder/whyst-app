@@ -3,8 +3,8 @@
         <view class="tui-order-item" v-for="(model,orderIndex) in list" :key="orderIndex">
             <tui-list-cell :hover="false" :lineLeft="false">
                 <view class="tui-goods-title">
-                    <view>订单号：{{model.outTradeNo.substr(0,8) || ''}}</view>
-                    <view class="tui-order-status">失败</view>
+                    <view>订单号：{{model.outTradeNo.substr(0,20) || ''}}</view>
+                    <view class="tui-order-status">{{global.getGlobalValue(model.status, 'orderStatus')}}</view>
                 </view>
             </tui-list-cell>
             <tui-list-cell padding="0" @click="detail(model.id)">

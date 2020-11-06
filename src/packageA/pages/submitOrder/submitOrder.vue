@@ -97,13 +97,15 @@
 			return {
 				hasCoupon: true,
 				insufficient: true,
-				addressList: []
+				addressList: [],
+				vip: 0
 			}
 		},
 		computed:{
 			...mapGetters({
 				saveGoodsInfo: 'getSaveGoodsInfo',
-				addressId: 'getAddressId'
+				addressId: 'getAddressId',
+				sceneCode:'getSceneCode'
 			}),
 			defaultAddress(){
 				let address =  {}
@@ -123,8 +125,9 @@
 				return  Number(this.saveGoodsInfo.goodsInfo.price) * this.saveGoodsInfo.value
 			}
 		},
-		onLoad(){
+		onLoad(options){
 			this.getAddress()
+			options.hasOwnProperty('vip') && (this.vip = options.vip)
 		},
 		methods: {
 			...mapMutations({
@@ -143,14 +146,11 @@
 				})
 			},
 			btnPay() {
-				uni.redirectTo({
-					url:'/packageA/pages/success/success'
-				})
-				return
 				let param = {
 					skuId: this.saveGoodsInfo.goodsInfo.id,
 					addressId: this.defaultAddress.id,
-					goodsAmount: this.saveGoodsInfo.value
+					goodsAmount: this.saveGoodsInfo.value,
+					promotionCode: this.vip !== 0 ? this.sceneCode : null
 				}
 				mallOrder(param, 'post').then(res =>{
 					let {nonceStr,signType,paySign} = res;
@@ -160,8 +160,8 @@
 						package: res.package,
 						signType,
 						paySign,
-						success (res) {
-							console.log(res);
+						success :(res)=> {
+							this.$emit('setSceneCode',null)
 							uni.redirectTo({
 								url:'/packageA/pages/success/success'
 							})

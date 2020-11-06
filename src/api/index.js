@@ -185,3 +185,19 @@ export const goodsAttrs = (data, method) => {
 export const mallOrder = (data, method) => {
     return axios.request(handleRestful(`/member/order`, data, method))
 }
+
+/**
+ * 物流信息查询
+ * @return {AxiosPromise}
+ */
+export const logistics = (data, method) => {
+    return axios.request(handleRestful(`/member/order/logistics`, data, method))
+}
+
+/**
+ * vip 商品
+ * @return {AxiosPromise}
+ */
+export const vipGoods = (data, method) => {
+    return axios.request(handleRestful(`/member/goods/vip_goods`, data, method))
+}

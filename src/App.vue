@@ -2,14 +2,8 @@
     import {getAuthorization} from "@/libs/utils";
 
 export default {
-    onLaunch: function (query) {
-        console.log(query);
-        const scene = decodeURIComponent(query.scene)
-        if (scene == 1011){
-            console.log("scene",scene);
-        }
-
-        getAuthorization()
+    onLaunch: function () {
+        // getAuthorization()
         console.log('App Launch')
     },
     onShow: function () {

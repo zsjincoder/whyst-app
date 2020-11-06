@@ -1,5 +1,5 @@
 <template>
-    <view class="home">
+    <view class="home" @touchmove.stop.prevent="()=>{ return}">
         <view class="tui-header-box"
               :style="{height:top+'rpx'}">
         </view>
@@ -61,13 +61,35 @@
                 </swiper-item>
             </swiper>
         </view>
+
+        <!--购物弹窗-->
+        <view v-if="!goodModal && sceneCode" class="min-modal" @click="goodModal = true">
+            vip
+        </view>
+        <tui-modal :show="goodModal" @cancel="goodModalEvent" :custom="true">
+            <scroll-view scroll-y class="goods-modal">
+                <image :src="vipGoodsInfo.goods.image" class="good-img"></image>
+                <view class="good-name">{{vipGoodsInfo.goods.goodsName || '' }}</view>
+                <view class="good-price">￥{{vipGoodsInfo.goods.price || 0}}</view>
+                <text class="prompt">提示：立即购买即刻成为vip会员</text>
+                <tui-button margin="28rpx 0 0" height="56rpx" type="danger" shape="circle" @click="shop(vipGoodsInfo.goods.spuId)">立即购买</tui-button>
+                <view class="interests">
+                    <view class="title">会员权益</view>
+<!--                    <view class="interests-item" v-for="(v,i) in privilegeList" :key="i">-->
+<!--                        <view class="item-label">{{v.label}}</view>-->
+<!--                        <view class="item-value">{{v.value}}</view>-->
+<!--                    </view>-->
+                    <text class="interests-item" v-text="vipGoodsInfo.vipPower" selectable ></text>
+                </view>
+            </scroll-view>
+        </tui-modal>
     </view>
 </template>
 
 <script>
-    import {banner, Integral} from "@/api";
-    import {getUserInfoForStorage, judgeIsLogin} from "@/libs/utils";
-import {mapGetters} from "vuex";
+    import {banner, Integral, vipGoods} from "@/api";
+    import {getAuthorization, getUserInfoForStorage} from "@/libs/utils";
+    import {mapGetters, mapMutations} from "vuex";
 
 export default {
     data() {
@@ -101,10 +123,34 @@ export default {
             swiperList:[
                 '/static/swiper/cw.jpg',
                 '/static/swiper/xm.jpg',
+            ],
+
+            //弹窗
+            goodModal: false,
+            vipGoodsInfo:{},
+
+            //特权
+            privilegeList: [
+                {
+                    label:'特权一',
+                    value:'轻松拥有一份属于自己的大健康事业，为他人送健康，大爱无疆。'
+                },
+                {
+                    label:'特权二',
+                    value:'获得一份价值398元的中草药泥膏，泥膏功效：排寒、除湿、排毒、减肥、亚健康调理。'
+                },
+                {
+                    label:'特权三',
+                    value:'拥有一个无限大的资源平台，共享平台资源，海量的养身学习资料。'
+                },
+                {
+                    label:'特权四',
+                    value:'有限获得创业指导，平台倒是全程辅导展业工作。'
+                }
             ]
         }
     },
-    onLoad() {
+    onLoad(options) {
         let obj = {};
         // #ifdef MP-WEIXIN
         obj = wx.getMenuButtonBoundingClientRect();
@@ -114,7 +160,17 @@ export default {
             }
         })
         // #endif
-
+        if (options.scene) {
+            console.log("has scene");
+            const scene = decodeURIComponent(options.scene);
+            this.setSceneCode(scene)
+            this.getVipGood()
+            console.log("scene is ", scene);
+        } else {
+            console.log("no scene");
+        }
+        console.log(this.sceneCode);
+        getAuthorization()
     },
     onShow() {
         this.getBannerInfo()
@@ -124,10 +180,33 @@ export default {
     },
     computed:{
       ...mapGetters({
-          userInfo:'getUserInfo'
+          userInfo:'getUserInfo',
+          sceneCode:'getSceneCode'
       })
     },
     methods: {
+        ...mapMutations({
+            setSceneCode:'setSceneCode'
+        }),
+        //获取vip商品
+        getVipGood(){
+            vipGoods({},'get').then(res =>{
+                console.log(res);
+                this.vipGoodsInfo = res
+                this.goodModal = true
+            })
+        },
+        //购买商品
+        shop(id = ''){
+            uni.navigateTo({
+                url: "/packageA/pages/productDetail/ProductDetail?vpi=1&id=" + id
+            })
+        },
+        //弹窗
+        goodModalEvent(){
+            this.goodModal = false
+        },
+
         //banner图
         getBannerInfo() {
             banner({}, 'get').then(res=>{
@@ -194,7 +273,33 @@ export default {
 .home {
     width: 100%;
     box-sizing: border-box;
+    position: relative;
     //padding: 0 10rpx;
+    //小窗
+    .min-modal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 500rpx;
+        right: -10rpx;
+        width: 60rpx;
+        height: 60rpx;
+        color: #ffffff;
+        background: #6eb3e8;
+        font-size: 24rpx;
+        border: 1px #9eeacf solid;
+        border-radius: 20rpx;
+        box-shadow: #33CDA1 -2rpx -2rpx 5rpx;
+        animation: rotateEvent 1.5s;
+        animation-iteration-count: infinite
+    }
+
+    @keyframes rotateEvent
+    {
+        0% {transform: rotate(-35deg);}
+        100% {transform: rotate(-45deg);}
+    }
 
     .home-header {
         position: relative;
@@ -315,6 +420,70 @@ export default {
             border-radius: 10rpx;
             width: 100%;
             height: 100%;
+        }
+    }
+}
+
+    //弹窗
+.goods-modal {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 850rpx;
+    overflow-y: auto;
+
+    .good-img {
+        width: 100%;
+    }
+
+    .good-name {
+        width: 100%;
+        font-size: 28rpx;
+        padding-top: 20rpx;
+    }
+    .good-price {
+        width: 100%;
+        font-size: 32rpx;
+        padding-top: 10rpx;
+        color: red;
+    }
+
+    .prompt {
+        width: 100%;
+        font-size: 24rpx;
+        color: #fa4343;
+    }
+
+    .interests {
+        margin-top: 20rpx;
+        width: 100%;
+
+        .title {
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .interests-item{
+            margin-top: 10rpx;
+            width: 100%;
+            color: #6e6e6f;
+            font-size: 26rpx;
+
+            .item-label {
+                font-weight: bold;
+                color: #f15353;
+                font-size: 30rpx;
+            }
+
+            .item-value {
+                margin-top: 5rpx;
+                font-size: 26rpx;
+                word-break: break-all;
+                color: #6e6e6f;
+            }
         }
     }
 }
