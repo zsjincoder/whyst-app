@@ -47,9 +47,8 @@
 		},
 		methods: {
 			result1: function(e) {
-				console.log(e);
-				console.log(this.imageData);
-				let {imgArr,status} = e;
+                console.log(e);
+                let {imgArr,status} = e;
 				this.value1 = imgArr
 				if (imgArr.length > 0 && status === 1){
 					this.imageData[0] = imgArr[0];

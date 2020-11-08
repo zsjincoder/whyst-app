@@ -1,5 +1,5 @@
 <template>
-    <view class="home" @touchmove.stop.prevent="()=>{ return}">
+    <view class="home">
         <view class="tui-header-box"
               :style="{height:top+'rpx'}">
         </view>
@@ -12,20 +12,22 @@
                     :show-sex="true"
                     :sex-icon="userInfo.sex === 1 ? 'man' : 'woman'"
                     :show-level="true"></u-avatar>
-                <view class="tui-info">
+                <view class="tui-info" v-if="isLogin">
                     <view class="tui-nickname">
                         {{userInfo.nickname || ''}}
-<!--                        <image src="/static/images/mall/my/icon_vip_3x.png" class="tui-img-vip"></image>-->
                     </view>
                     <view class="tui-explain">{{userInfo.levelName || ''}}</view>
                 </view>
-                <view class="tui-btn-edit">
+                <view class="tui-btn-edit" v-if="isLogin">
                     <tui-icon name="setup"
                               :size="50"
                               unit="rpx"
                               color="#fff"
                               @click="toRecords('/packageC/pages/personal_center/personalCenter')"></tui-icon>
                 </view>
+                <view v-if="!isLogin"
+                      style="width: 70%;box-sizing: border-box;padding-left: 20rpx;color: #eee8d5"
+                      @click="userLoginInfo">点击登录</view>
             </view>
             <view class="my-income">
                 <view class="income-con">
@@ -90,6 +92,7 @@
     import {banner, Integral, vipGoods} from "@/api";
     import {getAuthorization, getUserInfoForStorage} from "@/libs/utils";
     import {mapGetters, mapMutations} from "vuex";
+    import store from "@/store";
 
 export default {
     data() {
@@ -118,7 +121,8 @@ export default {
                 {name: '客服中心', img: '/static/index-icon/kfzx.png', path: '/packageB/pages/customer/customer'},
                 {name: '帮助中心', img: '/static/index-icon/bzzx.png', path: '/packageB/pages/commonProblem/commonProblem'},
                 {name: '平台公告', img: '/static/index-icon/ad.png', path: '/packageB/pages/platformAnnouncement/platformAnnouncement'},
-                {name: 'VIP学习中心', img: '/static/index-icon/xx.png', path: ''},
+                // {name: 'VIP学习中心', img: '/static/index-icon/xx.png', path: ''},
+                {name: '我要核销', img: '/static/index-icon/hx.png', path: '/packageC/pages/coupon/Coupon'},
             ],
             swiperList:[
                 '/static/swiper/cw.jpg',
@@ -181,13 +185,31 @@ export default {
     computed:{
       ...mapGetters({
           userInfo:'getUserInfo',
-          sceneCode:'getSceneCode'
+          sceneCode:'getSceneCode',
+          isLogin:'getIsLogin'
       })
     },
     methods: {
         ...mapMutations({
             setSceneCode:'setSceneCode'
         }),
+        //用户登录
+        userLoginInfo(){
+            if (this.$store.state.user.showLogin) return false
+            this.$store.commit('setShowLogin', true)
+            uni.showModal({
+                title:'提示',
+                content:'登录需用户授权,请先授权登录！',
+                success:  (res)=> {
+                    this.$store.commit('setShowLogin', false)
+                    if (res.confirm) {
+                        uni.redirectTo({
+                            url:'/pages/authorization/Authorization'
+                        })
+                    }
+                }
+            })
+        },
         //获取vip商品
         getVipGood(){
             vipGoods({},'get').then(res =>{

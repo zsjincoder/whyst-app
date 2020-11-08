@@ -7,7 +7,8 @@ export default {
         //用户信息
         userInfo: {},
         //扫码进入code
-        sceneCode: null
+        sceneCode: null,
+        showLogin: false
     },
     getters: {
         getUserInfo: state => state.userInfo,
@@ -36,6 +37,9 @@ export default {
         },
         setSceneCode: (state, data) => {
             state.sceneCode = data
+        },
+        setShowLogin: (state, data) => {
+            state.showLogin = data
         }
     }
 }

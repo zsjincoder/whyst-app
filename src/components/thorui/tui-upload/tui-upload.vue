@@ -182,8 +182,8 @@
 								//判断code，以实际接口规范判断
 								if (d.code % 100 === 0) {
 									// 上传成功 d.url 为上传后图片地址，以实际接口返回为准
-									d.url && (_this.imageList[index] = d.url)
-									_this.$set(_this.statusArr, index, d.url ? "1" : "3")
+                                    d.data.imgUrl && (_this.imageList[index] = d.data.imgUrl)
+									_this.$set(_this.statusArr, index, d.data.imgUrl ? "1" : "3")
 								} else {
 									// 上传失败
 									_this.$set(_this.statusArr, index, "3")

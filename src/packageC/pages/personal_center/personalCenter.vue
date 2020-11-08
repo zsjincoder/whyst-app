@@ -22,7 +22,7 @@
 			<tui-list-view unlined="all">
 
 				<tui-list-cell :lineLeft="false" :padding="'39rpx 26rpx 39rpx 26rpx'"
-							   @click="setName()"
+							   @click="setName(userInfo.realName)"
 				 :arrow="true">
 					<view class="tui-item-box">
 						<view class="tui-msg-name">真实姓名</view>

@@ -185,6 +185,10 @@
 				{
 					"path" : "pages/personal_center/collectionCode/collectionCode",
 					"style" : {"navigationBarTitleText": "收款码"}
+				},
+				{
+					"path" : "pages/coupon/Coupon",
+					"style" : {"navigationBarTitleText": "核销码"}
 				}
 			]
 		}

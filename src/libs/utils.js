@@ -9,9 +9,23 @@ export const getAuthorization = () =>{
     uni.getSetting({
         success(res) {
             if (! res.authSetting.hasOwnProperty("scope.userInfo")){
-                 console.log("没有权限")
-                uni.redirectTo({
-                    url:'/pages/authorization/Authorization'
+                console.log("没有权限")
+                uni.switchTab({
+                    url:'/pages/index/index'
+                })
+                if (store.state.user.showLogin) return false
+                store.commit('setShowLogin', true)
+                uni.showModal({
+                    title:'提示',
+                    content:'您没有登录,请先授权登录！',
+                    success: function (res) {
+                        store.commit('setShowLogin', false)
+                        if (res.confirm) {
+                            uni.redirectTo({
+                                url:'/pages/authorization/Authorization'
+                            })
+                        }
+                    }
                 })
             }else {
                 getUserInfo()
@@ -80,6 +94,8 @@ export const judgeIsLogin = () =>{
             if (store.state.user.isLogin) {
                 clearInterval(timer)
                 resolve(true)
+            }else{
+                uni.hideLoading()
             }
         }, 500)
     })

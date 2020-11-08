@@ -1,9 +1,6 @@
 <script>
-    import {getAuthorization} from "@/libs/utils";
-
 export default {
     onLaunch: function () {
-        // getAuthorization()
         console.log('App Launch')
     },
     onShow: function () {

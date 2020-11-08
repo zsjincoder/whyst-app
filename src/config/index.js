@@ -1,6 +1,6 @@
 export default {
     //登录后跳转的页面
-    // homePage:'/packageC/pages/offlineOutlets/OfflineOutlets',
+    // homePage:'/packageC/pages/coupon/Coupon',
     homePage:'/pages/index/index',
     baseUrl:{
         dev: 'https://api.wcables.com',

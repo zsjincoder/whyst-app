@@ -201,3 +201,19 @@ export const logistics = (data, method) => {
 export const vipGoods = (data, method) => {
     return axios.request(handleRestful(`/member/goods/vip_goods`, data, method))
 }
+
+/**
+ * 核销码
+ * @return {AxiosPromise}
+ */
+export const writeOffCode = (data, method) => {
+    return axios.request(handleRestful(`/member/write_off_code`, data, method))
+}
+
+/**
+ * 核销码状态
+ * @return {AxiosPromise}
+ */
+export const writeOffCodeStatus = (data, method) => {
+    return axios.request(handleRestful(`/member/write_off_code/status`, data, method))
+}
