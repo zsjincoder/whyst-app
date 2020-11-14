@@ -232,7 +232,7 @@ export default {
         //banner图
         getBannerInfo() {
             banner({}, 'get').then(res=>{
-                this.swiperList = res.list || []
+                this.swiperList = res || []
             })
         },
         //跳转地址

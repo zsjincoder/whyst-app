@@ -4,11 +4,15 @@ import {getAuthorization, getUserInfo, judgeIsLogin} from "@/libs/utils";
 import store from "@/store";
 
 //白名单
-const whiteList = ['/index/mini_program/login','/member/info','/admin/banner']
+const whiteList = ['/index/mini_program/login','/member/info']
+
+//passList
+const passList = ['/admin/banner','/member/write_off_code/status']
 
 const baseURL = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config.baseUrl.pro
 
 let cancel = null
+
 
 
 const instance = axios.create({
@@ -37,15 +41,19 @@ instance.interceptors.request.use( async (config)=> {
         return config
     }else {
         if (store.state.user.isLogin){
+            if (!passList.includes(config.url)){
+                uni.showLoading({
+                    title: '加载中'
+                });
+            }
+            config.headers.token = store.state.user.token || '';
+            return config
+        }else {
             await judgeIsLogin()
             uni.showLoading({
                 title: '加载中'
             });
             config.headers.token = store.state.user.token || '';
-            return config
-        }else {
-            cancel('不想请求了');
-            getAuthorization()
             return config
         }
     }

@@ -30,8 +30,8 @@
                     </view>
                 </view>
                 <view class="hidden-box" v-show="item.spread">
-                    <view class="code-tit">验证码</view>
-                    <view class="code-num">{{ item.code }}</view>
+<!--                    <view class="code-tit">验证码</view>-->
+<!--                    <view class="code-num">{{ item.code }}</view>-->
                     <view class="qrcode-box">
                         <view class="qrcode">
                             <canvas
@@ -120,6 +120,13 @@ export default {
             this.timer  = setInterval(()=>{
                 writeOffCodeStatus({code: this.chooseCode},'get').then(res=>{
                     console.log(res);
+                    let {status} = res
+                    if (status === 'SUCCESS'){
+                        uni.showToast({
+                            title: '扫码成功',
+                            duration: 2000
+                        })
+                    }
                 })
             },1000)
         },

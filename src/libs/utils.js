@@ -51,7 +51,7 @@ export const getUserInfo = () =>{
                     console.log(infoRes)
                     let {iv , encryptedData} = infoRes
                     console.log('用户：' + infoRes);
-                    let params = {code, iv, encryptedData}
+                    let params = {code, iv, encryptedData, promotionCode: store.state.user.sceneCode}
                     login(params,'post').then(res=>{
                         // console.log(res);
                         let {token} = res

@@ -72,8 +72,9 @@
             <view class="tui-nomore-box">
                 <tui-nomore text="商品详情" backgroundColor="#f6f6f6"></tui-nomore>
             </view>
-            <view class="tui-product-img tui-radius-all"
-                  v-html="goodsInfo.detail"></view>
+<!--            <view class="tui-product-img tui-radius-all"-->
+<!--                 v-html="goodsInfo.detail"></view>-->
+            <rich-text :nodes="textEvt(goodsInfo.detail)"></rich-text>
             <tui-nomore text="已经到最底了" backgroundColor="#f7f7f7"></tui-nomore>
             <view class="tui-safearea-bottom"></view>
         </view>
@@ -173,7 +174,6 @@ export default {
           goodsInfo: {
 
           },
-
           //所有规格值
           specificationValueList:[],
           //选中的规格
@@ -222,6 +222,11 @@ export default {
         }),
 
         isInArray: isInArray,
+        textEvt(text){
+            if (!text) return ''
+            return text.replace(/figure/g, 'div')
+        },
+
         //选择规格
         setChoose(index, item){
             if (this.specificationValueList.indexOf(item.value) === -1){

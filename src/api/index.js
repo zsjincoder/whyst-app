@@ -23,7 +23,7 @@ export const getInfo = (data, method) => {
  * @return {AxiosPromise}
  */
 export const banner = (data, method) => {
-    return axios.request(handleRestful(`/admin/banner`, data, method))
+    return axios.request(handleRestful(`/index/banner`, data, method))
 }
 
 /**
