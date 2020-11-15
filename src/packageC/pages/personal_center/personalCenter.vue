@@ -83,7 +83,7 @@
 				userInfo:'getUserInfo'
 			}),
 			qrMsg(){
-				let images = this.userInfo.withdrawQrCode.split(',');
+                let images =this.userInfo.withdrawQrCode !== null ? this.userInfo.withdrawQrCode.split(',') : [];
 				let index = 0
 				images.forEach(item=>{
 					item && index ++

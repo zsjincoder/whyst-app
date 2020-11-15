@@ -146,6 +146,21 @@
 				})
 			},
 			btnPay() {
+                if (!this.$store.state.user.isLogin){
+                    uni.showModal({
+                        title:'提示',
+                        content:'继续操作需用户授权登录！',
+                        success:  (res)=> {
+                            this.$store.commit('setShowLogin', false)
+                            if (res.confirm) {
+                                uni.redirectTo({
+                                    url:'/pages/authorization/Authorization'
+                                })
+                            }
+                        }
+                    })
+                    return false
+                }
 				let param = {
 					skuId: this.saveGoodsInfo.goodsInfo.id,
 					addressId: this.defaultAddress.id,

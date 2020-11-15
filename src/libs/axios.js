@@ -4,7 +4,7 @@ import {getAuthorization, getUserInfo, judgeIsLogin} from "@/libs/utils";
 import store from "@/store";
 
 //白名单
-const whiteList = ['/index/mini_program/login','/member/info']
+const whiteList = ['/index/mini_program/login','/member/info','/member/goods','/index/banner','/member/goods/detail/']
 
 //passList
 const passList = ['/admin/banner','/member/write_off_code/status']
@@ -31,12 +31,27 @@ const instance = axios.create({
     }
 });
 
+function findUrl(url){
+    let  i =  whiteList.find(item => url.indexOf(item) !== -1)
+    return i !== undefined
+}
+
 // 添加请求拦截器
 instance.interceptors.request.use( async (config)=> {
-    if (whiteList.includes(config.url)){
-        uni.showLoading({
-            title: '加载中'
-        });
+    // console.log(findUrl(config.url));
+    // if (!passList.includes(config.url)){
+    //     uni.showLoading({
+    //         title: '加载中'
+    //     });
+    // }
+    // config.headers.token = store.state.user.token || '';
+    // return config
+    if (findUrl(config.url)){
+        if (!passList.includes(config.url)){
+            uni.showLoading({
+                title: '加载中'
+            });
+        }
         config.headers.token = store.state.user.token || '';
         return config
     }else {
@@ -73,7 +88,18 @@ instance.interceptors.response.use(function (response) {
     if (data.code === 0) {
         return data.data
     } if (data.errCode === 4221){
-        console.log("没有权限，未登录");
+        uni.showModal({
+            title:'提示',
+            content:'查看内容需用户授权登录！',
+            success:  (res)=> {
+                store.commit('setShowLogin', false)
+                if (res.confirm) {
+                    uni.redirectTo({
+                        url:'/pages/authorization/Authorization'
+                    })
+                }
+            }
+        })
     } else {
         uni.showToast({
             title:`错误信息：${data.message || '无'}，错误码：${status || '无'}`,

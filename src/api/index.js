@@ -31,7 +31,7 @@ export const banner = (data, method) => {
  * @return {AxiosPromise}
  */
 export const question = (data, method) => {
-    return axios.request(handleRestful(`/admin/question`, data, method))
+    return axios.request(handleRestful(`/index/question`, data, method))
 }
 
 /**
@@ -39,7 +39,7 @@ export const question = (data, method) => {
  * @return {AxiosPromise}
  */
 export const notice = (data, method) => {
-    return axios.request(handleRestful(`/admin/notice`, data, method))
+    return axios.request(handleRestful(`/index/notice`, data, method))
 }
 
 /**
