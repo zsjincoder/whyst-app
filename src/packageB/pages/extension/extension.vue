@@ -1,5 +1,5 @@
 <template>
-	<view class="extension">
+	<view class="extension" @longpress="shareEQ">
 		<image src="/static/tg/tg.jpg" class="img" mode="widthFix"></image>
 		<view class="qr-body">
 			<image :src="codeUrl"></image>
@@ -31,7 +31,29 @@
 					let {codeUrl} = res;
 					this.codeUrl = codeUrl || ''
 				})
-			}
+			},
+            shareEQ(){
+                uni.share({
+                    provider: "weixin",
+                    scene: "WXSceneSession",
+                    type: 2,
+                    title: "五衡益生堂分享",
+                    summary: "我正在使用五衡益生堂小程序，赶紧跟我一起来体验！",
+                    imageUrl: this.codeUrl,
+                    success: function (res) {
+                        console.log("success:" + JSON.stringify(res));
+                        uni.showToast({
+                            title: "分享成功"
+                        })
+                    },
+                    fail: function (err) {
+                        console.log("fail:" + JSON.stringify(err));
+                        uni.showToast({
+                            title: "分享失败"
+                        })
+                    }
+                });
+            }
 		}
 	}
 </script>

@@ -2,18 +2,28 @@
 	<view class="customer">
 		<view class="time">{{$u.timeFormat(new Date().getTime(), 'yyyy年mm月dd日 MM:ss')}}</view>
 		<view class="title">扫码添加客服：</view>
-		<image class="body" src="../../static/ewm.png"></image>
+		<image class="body" :src="qrCode"></image>
 		<view class="title">咨询及商业活动：<text @click="call">{{mobile}}</text></view>
 	</view>
 </template>
 
 <script>
-	export default {
+	import {customerService} from "@/api";
+
+    export default {
 		data() {
 			return {
-				mobile:'13452645658',
+				mobile:'',
+                qrCode: ''
 			}
 		},
+        onShow(){
+            customerService({},'get').then(res=>{
+                let {qrCode,phoneNumber} = res
+                this.qrCode = qrCode
+                this.mobile = phoneNumber
+            })
+        },
 		methods: {
 			call(){
 				uni.makePhoneCall({
@@ -50,8 +60,8 @@
 			}
 		}
 		.body {
-			width: 750rpx;
-			height: 750rpx;
+			width:750rpx;
+            height: 750rpx;
 		}
 	}
 </style>

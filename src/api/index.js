@@ -217,3 +217,11 @@ export const writeOffCode = (data, method) => {
 export const writeOffCodeStatus = (data, method) => {
     return axios.request(handleRestful(`/member/write_off_code/status`, data, method))
 }
+
+/**
+ * 查询客服
+ * @return {AxiosPromise}
+ */
+export const customerService = (data, method) => {
+    return axios.request(handleRestful(`/index/customer_service`, data, method))
+}

@@ -51,6 +51,8 @@ export default {
         }
     },
     onShow(){
+        this.list = []
+        this.pageData.page = 1
         this.getList()
     },
     onReachBottom(){
