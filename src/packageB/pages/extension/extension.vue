@@ -1,8 +1,13 @@
 <template>
 	<view class="extension" @longpress="shareEQ">
 		<image src="/static/tg/tg.jpg" class="img" mode="widthFix"></image>
+		<view class="share">
+			<image src="/static/images/share.png" mode="widthFix"></image>
+			<text>分享</text>
+			<button type="primary" open-type='share'></button>
+		</view>
 		<view class="qr-body">
-			<image :src="codeUrl"></image>
+			<image :src="codeUrl" @click="identify"></image>
 		</view>
 	</view>
 </template>
@@ -19,7 +24,12 @@
 		onShow(){
 			this.getQR()
 		},
-
+		onShareAppMessage: function (res) {
+			return {
+				title: '五衡益生堂小程序',
+				path: '/pages/index/index'
+			}
+		},
 		methods: {
 			getQR(){
 				unLimit({
@@ -32,27 +42,48 @@
 					this.codeUrl = codeUrl || ''
 				})
 			},
+			identify(){
+				wx.previewImage({
+					urls:[this.qrCode],
+					success: function(res) {
+						console.log('success');
+					},
+					fail: function(res) {
+						console.log('fail');
+					},
+				})
+			},
             shareEQ(){
-                uni.share({
-                    provider: "weixin",
-                    scene: "WXSceneSession",
-                    type: 2,
-                    title: "五衡益生堂分享",
-                    summary: "我正在使用五衡益生堂小程序，赶紧跟我一起来体验！",
-                    imageUrl: this.codeUrl,
-                    success: function (res) {
-                        console.log("success:" + JSON.stringify(res));
-                        uni.showToast({
-                            title: "分享成功"
-                        })
-                    },
-                    fail: function (err) {
-                        console.log("fail:" + JSON.stringify(err));
-                        uni.showToast({
-                            title: "分享失败"
-                        })
-                    }
-                });
+				uni.showModal({
+					title: '提示',
+					content: '确定保存二维码？',
+					success:(res)=>{
+						if (res.confirm){
+							uni.downloadFile({
+								url: this.codeUrl,
+								success: (res)=> {
+									wx.saveImageToPhotosAlbum({
+										filePath: res.tempFilePath,
+										success: function (data) {
+											uni.showToast({
+												title: '保存成功!',
+											})
+										},
+										fail: function (err) {
+											if (err.errMsg === "saveImageToPhotosAlbum:fail cancel") {
+												uni.showToast({
+													title: '保存失败!',
+													icon: 'none'
+												})
+											}
+										},
+									})
+
+								}
+							})
+						}
+					}
+				})
             }
 		}
 	}
@@ -66,6 +97,39 @@
 	position: relative;
 	width: 750rpx;
 	height: 100%;
+
+
+	.share {
+		position: absolute;
+		top: 50rpx;
+		right: 60rpx;
+		width: 60rpx;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+
+		image {
+			width: 60rpx;
+			height: 60rpx;
+		}
+
+		text {
+			margin-top: 10rpx;
+			font-size: 26rpx;
+			color: silver;
+		}
+
+		button {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+		}
+	}
 
 	.img{
 		width: 750rpx;

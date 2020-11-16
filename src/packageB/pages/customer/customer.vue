@@ -1,8 +1,9 @@
 <template>
 	<view class="customer">
 		<view class="time">{{$u.timeFormat(new Date().getTime(), 'yyyy年mm月dd日 MM:ss')}}</view>
-		<view class="title">扫码添加客服：</view>
-		<image class="body" :src="qrCode"></image>
+		<view class="title">扫码或长按复制微信号添加客服：</view>
+		<image class="body" :src="qrCode" @click="identify"></image>
+		<view class="title">微信号：<text @longpress="copy">{{mobile}}</text></view>
 		<view class="title">咨询及商业活动：<text @click="call">{{mobile}}</text></view>
 	</view>
 </template>
@@ -29,6 +30,28 @@
 				uni.makePhoneCall({
 				    phoneNumber: this.mobile //仅为示例
 				});
+			},
+			copy() {
+				wx.setClipboardData({
+					data: this.mobile,
+					success: function (res) {
+						uni.showToast({
+							title:'复制成功'
+						})
+					}
+
+				})
+			},
+			identify(){
+				wx.previewImage({
+					urls:[this.qrCode],
+					success: function(res) {
+						console.log('success');
+					},
+					fail: function(res) {
+						console.log('fail');
+					},
+				})
 			}
 		}
 	}
@@ -40,7 +63,7 @@
 	}
 	.customer {
 		width: 100%;
-		
+
 		.time {
 			width: 100%;
 			height: 60rpx;
@@ -53,7 +76,7 @@
 			font-size: 34rpx;
 			padding: 20rpx 0;
 			color: #000000;
-			
+
 			text{
 				color: #00aaff;
 				border-bottom: 1px #00aaff solid;

@@ -3,7 +3,7 @@
 		<view class="mini_divider"></view>
 		<view class="q_detail">
 			<view class="q_title">Q：{{listItem.question}}</view>
-			<view class="q_content">A：{{listItem.answer}}</view>
+			<view class="q_content">A：<text>{{listItem.answer}}</text></view>
 		</view>
 	</view>
 </template>
@@ -20,7 +20,7 @@
             this.listItem = item
         },
 		methods: {
-			
+
 		}
 	}
 </script>

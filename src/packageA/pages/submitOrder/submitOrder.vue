@@ -90,7 +90,7 @@
 <script>
 	import {mapGetters, mapMutations} from "vuex";
 	import {mallOrder, shippingAddress} from "@/api";
-	import {formatPhone} from "@/libs/utils";
+	import {formatPhone, getUserInfo} from "@/libs/utils";
 
 	export default {
 		data() {
@@ -177,6 +177,9 @@
 						paySign,
 						success :(res)=> {
 							this.$emit('setSceneCode',null)
+							if (this.vip !== 0) {
+								getUserInfo()
+							}
 							uni.redirectTo({
 								url:'/packageA/pages/success/success'
 							})

@@ -37,8 +37,8 @@ export const getAuthorization = () =>{
 /**
  * 获取用户信息并登录
  */
-export const getUserInfo = () =>{
-    if (store.state.user.isLogin) return false;
+export const getUserInfo = (refresh = false) =>{
+    if (store.state.user.isLogin && !refresh) return false;
     uni.login({
         provider: 'weixin',
         success: function (loginRes) {
