@@ -3,7 +3,10 @@
 		<view class="mini_divider"></view>
 		<view class="q_detail">
 			<view class="q_title">Q：{{listItem.question}}</view>
-			<view class="q_content">A：<text>{{listItem.answer}}</text></view>
+			<view class="q_content">
+				<p style="margin-bottom: 20rpx;margin-top: 20rpx">A:</p>
+				<text>{{listItem.answer}}</text>
+			</view>
 		</view>
 	</view>
 </template>
