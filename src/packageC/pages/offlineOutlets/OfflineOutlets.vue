@@ -8,12 +8,13 @@
              :latitude="mapConfig.latitude"
              :longitude="mapConfig.longitude"
              :enable-traffic="true"
-             :scale="16"
+             :scale="mapConfig.scale"
              :markers="mapConfig.covers"
              @markertap="markerTap"
              @callouttap="markerTap">
         </map>
-        <view class="shop-info" v-if="mapConfig.covers.length > 0">
+        <view class="shop-info" v-for="(shopInfo,i) in mapConfig.covers"
+              :key="i">
             <image :src="shopInfo.logo"></image>
             <view class="name">
                 <text>{{ shopInfo.name || ''}}</text>
@@ -54,6 +55,7 @@ export default {
                 //106.517488,29.544261
                 id: 0, // 使用 marker点击事件 需要填写id
                 title: 'map',
+                scale: 13,
                 "enable-3D": true,
                 latitude: 29.547702,
                 longitude: 106.516967,
@@ -83,6 +85,7 @@ export default {
                     let {latitude,longitude,name,contactNumber,address,logo} = data[0]
                     this.mapConfig.latitude = latitude
                     this.mapConfig.longitude = longitude
+                    this.mapConfig.scale = 13
                     this.shopInfo ={name, contactNumber, address, logo}
                 }
                 this.mapConfig.covers = data
@@ -98,6 +101,7 @@ export default {
                 let {latitude,longitude,name,contactNumber,address,logo} = item
                 this.mapConfig.latitude = latitude
                 this.mapConfig.longitude = longitude
+                this.mapConfig.scale = 13
                 this.shopInfo ={name, contactNumber, address, logo}
             }
         },
@@ -174,6 +178,8 @@ export default {
         padding: 10rpx 20rpx;
         font-size: 28rpx;
         color: #999;
+        border-bottom: 1px silver solid;
+        margin-top: 20rpx;
 
         image {
             width: 500rpx;

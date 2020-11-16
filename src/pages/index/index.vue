@@ -65,7 +65,7 @@
         </view>
 
         <!--购物弹窗-->
-        <view v-if="!goodModal && sceneCode" class="min-modal" @click="goodModal = true">
+        <view v-if="!goodModal && sceneCode" class="min-modal" @click="getVipGood()">
             vip
         </view>
         <tui-modal :show="goodModal" @cancel="goodModalEvent" :custom="true">
@@ -164,9 +164,10 @@ export default {
             }
         })
         // #endif
-        if (options.scene) {
+        console.log(options);
+        if (options.scene || options.promotionCode ) {
             console.log("has scene");
-            const scene = decodeURIComponent(options.scene);
+            const scene =options.promotionCode || decodeURIComponent(options.scene);
             this.setSceneCode(scene)
             this.getVipGood()
             console.log("scene is ", scene);

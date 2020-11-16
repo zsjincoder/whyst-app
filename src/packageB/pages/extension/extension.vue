@@ -1,7 +1,7 @@
 <template>
 	<view class="extension" @longpress="shareEQ">
 		<image src="/static/tg/tg.jpg" class="img" mode="widthFix"></image>
-		<view class="share">
+		<view v-if="userInfo.promotionCode" class="share">
 			<image src="/static/images/share.png" mode="widthFix"></image>
 			<text>分享</text>
 			<button type="primary" open-type='share'></button>
@@ -14,6 +14,7 @@
 
 <script>
 	import {unLimit} from "@/api";
+    import {mapGetters} from "vuex";
 
 	export default {
 		data() {
@@ -25,11 +26,16 @@
 			this.getQR()
 		},
 		onShareAppMessage: function (res) {
-			return {
-				title: '五衡益生堂小程序',
-				path: '/pages/index/index'
-			}
+            return {
+                title: '五衡益生堂小程序',
+                path: '/pages/index/index?promotionCode='+ this.userInfo.promotionCode
+            }
 		},
+        computed:{
+		    ...mapGetters({
+                userInfo:'getUserInfo'
+            })
+        },
 		methods: {
 			getQR(){
 				unLimit({
