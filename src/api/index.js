@@ -225,3 +225,11 @@ export const writeOffCodeStatus = (data, method) => {
 export const customerService = (data, method) => {
     return axios.request(handleRestful(`/index/customer_service`, data, method))
 }
+
+/**
+ * 滚动消息
+ * @return {AxiosPromise}
+ */
+export const scrollMessage = (data, method) => {
+    return axios.request(handleRestful(`/index/scroll_message`, data, method))
+}

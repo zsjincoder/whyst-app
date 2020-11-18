@@ -38,6 +38,7 @@
                       @click="toRecords('/packageC/pages/wallet/wallet')">查看更多>></text>
             </view>
         </view>
+        <u-notice-bar type="primary" color="#71beff" mode="horizontal" :list="list"></u-notice-bar>
             <view class="c_b_box" :style="{top: (470 + top) +'rpx'}">
                 <view class="active">
                     <view v-for="(item, index) in operate"
@@ -89,7 +90,7 @@
 </template>
 
 <script>
-    import {banner, Integral, vipGoods} from "@/api";
+    import {banner, Integral, scrollMessage, vipGoods} from "@/api";
     import {getAuthorization, getUserInfoForStorage} from "@/libs/utils";
     import {mapGetters, mapMutations} from "vuex";
     import store from "@/store";
@@ -110,6 +111,7 @@ export default {
             webURL: "https://www.thorui.cn/wx",
             src: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2800645550,2486998227&fm=26&gp=0.jpg',
             userName: "张三",
+            list: [],
             operate: [
                 {name: '我的团队', img: "/static/index-icon/team.png", path: '/packageC/pages/team/team'},
                 {name: '我要推广', img: "/static/index-icon/tg.png", path: '/packageB/pages/extension/extension'},
@@ -181,6 +183,9 @@ export default {
         this.getBannerInfo()
         Integral({},'get').then(res=>{
             this.integral = res.integral;
+        })
+        scrollMessage({limit: 500, page: 1}, 'get').then(res =>{
+            this.list = res.list.map(item => item.message)
         })
     },
     computed:{
