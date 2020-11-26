@@ -38,17 +38,19 @@
                       @click="toRecords('/packageC/pages/wallet/wallet')">查看更多>></text>
             </view>
         </view>
-            <view class="c_b_box" :style="{top: (470 + top) +'rpx'}">
-                <view class="active">
-                    <view v-for="(item, index) in operate"
-                          class="active-item"
-                          :key="index"
-                          @click="toRecords(item.path)">
-                        <image class="active-item-icon" :src="item.img"></image>
-                        <text>{{ item.name }}</text>
-                    </view>
+        <u-notice-bar mode="horizontal" :duration="2500" :is-circular="false" :list="list"
+                      color="#6eb3e8"></u-notice-bar>
+        <view class="c_b_box" :style="{top: (470 + top) +'rpx'}">
+            <view class="active">
+                <view v-for="(item, index) in operate"
+                      class="active-item"
+                      :key="index"
+                      @click="toRecords(item.path)">
+                    <image class="active-item-icon" :src="item.img"></image>
+                    <text>{{ item.name }}</text>
                 </view>
             </view>
+        </view>
         <!--  轮播  -->
         <view class="swiper-box">
             <swiper class="swiper"
@@ -63,7 +65,7 @@
                 </swiper-item>
             </swiper>
         </view>
-
+        
         <!--购物弹窗-->
         <view v-if="!goodModal && sceneCode" class="min-modal" @click="getVipGood()">
             vip
@@ -89,7 +91,7 @@
 </template>
 
 <script>
-    import {banner, Integral, vipGoods} from "@/api";
+import {banner, Integral, scrollMessage, vipGoods} from "@/api";
     import {getAuthorization, getUserInfoForStorage} from "@/libs/utils";
     import {mapGetters, mapMutations} from "vuex";
     import store from "@/store";
@@ -100,6 +102,7 @@ export default {
             //用户积分
             integral: 0,
 
+            list: [],
 
             //轮播参数
             autoplay:true,
@@ -179,6 +182,7 @@ export default {
     },
     onShow() {
         this.getBannerInfo()
+        this.getGD()
         Integral({},'get').then(res=>{
             this.integral = res.integral;
         })
@@ -234,6 +238,12 @@ export default {
         getBannerInfo() {
             banner({}, 'get').then(res=>{
                 this.swiperList = res || []
+            })
+        },
+        getGD(){
+            scrollMessage({page:1,limit:100}, 'get').then(res=>{
+                let data = res.list || []
+                this.list = data.map(item => item.message)
             })
         },
         //跳转地址

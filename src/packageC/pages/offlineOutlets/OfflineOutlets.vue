@@ -13,11 +13,16 @@
              @markertap="markerTap"
              @callouttap="markerTap">
         </map>
-        <view class="shop-info" v-for="(shopInfo,i) in mapConfig.covers"
+        <view class="shop-info"
+              v-if="mapConfig.covers.length > 0"
+              v-for="(shopInfo,i) in mapConfig.covers"
               :key="i">
             <image :src="shopInfo.logo"></image>
             <view class="name">
                 <text>{{ shopInfo.name || ''}}</text>
+            </view>
+            <view>
+                简介：{{shopInfo.introduction}}
             </view>
             <view class="phone"  @click="call(shopInfo.contactNumber)">
                 <text>
@@ -102,6 +107,7 @@ export default {
                 this.mapConfig.latitude = latitude
                 this.mapConfig.longitude = longitude
                 this.mapConfig.scale = 13
+                   
                 this.shopInfo ={name, contactNumber, address, logo}
             }
         },
@@ -171,7 +177,6 @@ export default {
         flex-direction: column;
         box-sizing: border-box;
         width: 100%;
-        height: 450rpx;
         justify-content: center;
         align-items: center;
         background: #FFFFFF;

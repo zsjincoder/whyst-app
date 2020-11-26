@@ -27,7 +27,7 @@
 		},
 		onShareAppMessage: function (res) {
             return {
-                title: '五衡益生堂小程序',
+                title: '顾客主动上门，适用于:理疗店，美容院，养身馆',
                 path: '/pages/index/index?promotionCode='+ this.userInfo.promotionCode
             }
 		},
