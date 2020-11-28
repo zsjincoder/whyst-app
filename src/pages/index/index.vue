@@ -102,8 +102,6 @@ export default {
             //用户积分
             integral: 0,
 
-            list: [],
-
             //轮播参数
             autoplay:true,
             interval:1800,
@@ -113,6 +111,7 @@ export default {
             webURL: "https://www.thorui.cn/wx",
             src: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2800645550,2486998227&fm=26&gp=0.jpg',
             userName: "张三",
+            list: [],
             operate: [
                 {name: '我的团队', img: "/static/index-icon/team.png", path: '/packageC/pages/team/team'},
                 {name: '我要推广', img: "/static/index-icon/tg.png", path: '/packageB/pages/extension/extension'},
@@ -185,6 +184,9 @@ export default {
         this.getGD()
         Integral({},'get').then(res=>{
             this.integral = res.integral;
+        })
+        scrollMessage({limit: 500, page: 1}, 'get').then(res =>{
+            this.list = res.list.map(item => item.message)
         })
     },
     computed:{

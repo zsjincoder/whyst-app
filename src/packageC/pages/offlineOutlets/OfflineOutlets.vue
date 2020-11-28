@@ -17,9 +17,9 @@
               v-if="mapConfig.covers.length > 0"
               v-for="(shopInfo,i) in mapConfig.covers"
               :key="i">
-            <image :src="shopInfo.logo"></image>
+            <image :src="item.logo"></image>
             <view class="name">
-                <text>{{ shopInfo.name || ''}}</text>
+                <text>{{ item.name || ''}}</text>
             </view>
             <view>
                 简介：{{shopInfo.introduction}}
@@ -29,18 +29,18 @@
                     联系电话：
                     <text
                         style="color: #00aaff">
-                        {{shopInfo.contactNumber || ''}}
+                        {{item.contactNumber || ''}}
                     </text>
                 </text>
             </view>
-            <view class="address" @click="goHeir(shopInfo)">
+            <view class="address" @click="goHeir(item)">
                 地址：<text
                     style="color: #4d8097">
-                {{shopInfo.address || ''}}
+                {{item.address || ''}}
             </text>
             </view>
         </view>
-        <view class="shop-info" v-else>
+        <view class="shop-info" v-if="mapConfig.covers.length === 0">
             暂无数据
         </view>
     </view>
@@ -122,11 +122,9 @@ export default {
         },
         //qu
         goHeir(info){
-            console.log(this.mapConfig.latitude);
-            console.log(this.mapConfig.longitude);
             wx.openLocation({
-                latitude: Number(this.mapConfig.latitude),
-                longitude: Number(this.mapConfig.longitude),
+                latitude: Number(info.latitude),
+                longitude: Number(info.longitude),
                 success: function () {
                     console.log('success');
                 },
